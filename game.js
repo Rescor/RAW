@@ -16,6 +16,7 @@ let enemies = {
     }
 }
 let allEnemies;
+let allLightSips;
 
 let positionVertical = parseInt(getComputedStyle(tank).top);
 let positionHorizontal = parseInt(getComputedStyle(tank).left);
@@ -26,25 +27,21 @@ document.onkeydown = function(e) {
     if (e.code === "ArrowUp") {
         tank.style.top = positionVertical - 20 + "px";
         positionVertical = parseInt(getComputedStyle(tank).top);
-        console.log(positionVertical)
     }
 
     if (e.code === "ArrowDown") {
         tank.style.top = positionVertical + 20 + "px";
         positionVertical = parseInt(getComputedStyle(tank).top);
-        console.log(positionVertical)
     }
 
     if (e.code === "ArrowLeft") {
         tank.style.left = positionHorizontal - 20 + "px";
         positionHorizontal = parseInt(getComputedStyle(tank).left);
-        console.log(positionVertical)
     }
 
     if (e.code === "ArrowRight") {
         tank.style.left = positionHorizontal + 20 + "px";
         positionHorizontal = parseInt(getComputedStyle(tank).left);
-        console.log(positionVertical)
     }
 
     if (e.code === "Space") {
@@ -64,30 +61,28 @@ function fire(bullet) {
 function bulletMove(bullet) {
     let count = 0;
     allEnemies = document.getElementsByClassName("enemy");
-    
-    let thisInterval = setInterval( () => {
-        
-        
+
+    let bulletMoveInterval = setInterval( () => {
+        console.log("interval runned")
         bullet.style.left = positionHorizontal + 90 + count + "px";
         count += 3;
         for (let i = 0; i < allEnemies.length; i++) {
-            if (parseInt(bullet.style.left) + 20 >= parseInt(getComputedStyle(allEnemies[i]).left)) {
+            if (parseInt(bullet.style.left) + 20 >= parseInt(getComputedStyle(allEnemies[i]).left) && parseInt(bullet.style.left) - 70 <= parseInt(getComputedStyle(allEnemies[i]).left)) {
                 if (parseInt(bullet.style.top) >= parseInt(getComputedStyle(allEnemies[i]).top) && parseInt(bullet.style.top) <= parseInt(getComputedStyle(allEnemies[i]).top) + 40) {
                     bullet.remove();
                     allEnemies[i].remove();
                     scoreCounter(50);
-                    clearInterval(thisInterval);
+                    clearInterval(bulletMoveInterval);
                 }
             }
         }
         
 
         if (count == 3000) {
-            clearInterval(thisInterval);
+            clearInterval(bulletMoveInterval);
             bullet.remove()
         };
     }, 4);
-    
 }
 
 function enemySpawner(type) {
@@ -106,39 +101,20 @@ function enemySpawner(type) {
     document.body.appendChild(enemy);
 }
 
-function move(px) {
-    tank.style.top = positionVertical + px + "px";
-    positionVertical = parseInt(getComputedStyle(tank).top);
-    console.log(positionVertical);
-}
-
 function enemiesMove() {
-    allEnemies = document.getElementsByClassName("enemy");    
-    for (let i = 0; i < allEnemies.length; i++) {
-        allEnemies[i].style.left = parseInt(allEnemies[i].style.left) - 20 + "px";
+    allLightSips = document.getElementsByClassName("lightShip");    
+    for (let i = 0; i < allLightSips.length; i++) {
+        allLightSips[i].style.left = parseInt(allLightSips[i].style.left) - 20 + "px";
     }
-}
-
-
-
-function getRandomArbitrary(min, max) {
-    return Math.floor(Math.random() * (max - min) + min);
-  }
-
-
-function scoreCounter(count) {
-    score+=count;
-    scoreElem.innerHTML = score;
 }
 
 let enemySpawnInterval = setInterval(() => {
     enemySpawner(enemies.lightShip);
-    if (score == 150) {
+    if (score == 50) {
         clearInterval(enemySpawnInterval);
-        clearInterval(moveInterval);
         bossSpawn();
     };
-}, getRandomArbitrary(500, 2000));
+}, getRandomArbitrary(1500, 4000));
 
 function bossSpawn() {
     enemySpawner(enemies.boss);
@@ -152,12 +128,14 @@ function bossSpawn() {
             clearInterval(bossMoveInterval);
         }
     }, 300)
-    
-
 }
 
 
+let moveInterval = setInterval(() => enemiesMove(), 100);
 
-let moveInterval = setInterval(() => {
-    enemiesMove();
-}, 100);
+function scoreCounter(count) {
+    score+=count;
+    scoreElem.innerHTML = score;
+}
+
+function getRandomArbitrary(min, max) { return Math.floor(Math.random() * (max - min) + min) }
