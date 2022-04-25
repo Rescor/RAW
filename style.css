@@ -1,3 +1,34 @@
+* {
+    font-family: 'Roboto', sans-serif;
+    font-size: 30px;
+    margin: 0px;
+}
+body {
+    background-blend-mode: multiply;
+    background:url('space.jpg') top repeat fixed rgba(0,0,0,.5);
+    background-size: cover;
+    background-position: 100%;
+}
+
+
+#statusbar {
+    display: flex;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+    flex: auto;
+    width: 100%;
+    background-color: gray;
+    color: rgb(139, 236, 60);
+}
+
+
+.hpElement {
+    padding: 5px 10px;
+}
+.scoreElement {
+    padding: 5px 10px;
+}
+
 #tank {
     position: absolute;
     background-color: rgb(255, 0, 0);
@@ -19,7 +50,7 @@
 .bullet {
     width: 20px;
     height: 6px;
-    background-color: black;
+    background-color: rgb(255, 136, 0);
     position: absolute;
 }
 
@@ -37,6 +68,10 @@
     position: absolute;
 }
 
-body {
-    background-color: rgb(255, 255, 255);
+.explosion {
+    width: 40px;
+    height: 40px;
+    background-image: url("explosion.gif");
+    background-size: 100%;
+    position: absolute;
 }
