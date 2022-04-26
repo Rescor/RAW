@@ -1,5 +1,6 @@
 const hpElem            = document.querySelector("#hp");
 const scoreElem         = document.querySelector("#score");
+const maxScoreElem      = document.querySelector("#maxScore");
 const tank              = document.getElementById("tank");
 const weapon            = document.getElementById("weapon");
 let enemy               = document.getElementById("enemy");
@@ -29,8 +30,9 @@ let enemies             = {
 
 
 function refreshGameStatus() {
-    hpElem.innerHTML    = hp;
-    scoreElem.innerHTML = score;
+    hpElem.innerHTML       = hp;
+    scoreElem.innerHTML    = score;
+    maxScoreElem.innerHTML = localStorage.getItem('max-score') ? localStorage.getItem('max-score') : 0;
 }
 refreshGameStatus();
 
@@ -83,6 +85,7 @@ function bulletMove(bullet) {
                     explosion(allEnemies[i]);
                     allEnemies[i].remove();
                     scoreCounter(50);
+                    checkMaxScore(score);
                     clearInterval(bulletMoveInterval);
                 }
             }
@@ -129,17 +132,17 @@ function enemiesMove() {
             allLightSips[i].remove();
             hp-=1;
             refreshGameStatus();
+            if (hp == 0) gameOver();
         }
 
         allLightSips[i].style.left = parseInt(allLightSips[i].style.left) - 20 + "px";
     }
-    console.log(document.getElementById("space").style.backgroundPosition);
     //document.getElementById("space").style.backgroundPosition = parseInt(document.getElementById("space").style.backgroundPosition) + 10 + "%";
 }
 
 let enemySpawnInterval = setInterval(() => {
     enemySpawner(enemies.lightShip);
-    if (score == 50) {
+    if (score == 450) {
         clearInterval(enemySpawnInterval);
         bossSpawn();
     };
@@ -159,8 +162,22 @@ function bossSpawn() {
     }, 300)
 }
 
+function gameOver() {
+    console.log("funcGameOver")
+    localStorage.setItem('max-score', score);
+    console.log(localStorage.getItem('max-score'), "MaxScore")
+}
 
-let moveInterval = setInterval(() => enemiesMove(), 100);
+function checkMaxScore(score) {
+    let currentScore = score;
+    let currentMaxScore = localStorage.getItem('max-score', score);
+    if (currentScore > currentMaxScore) {
+        localStorage.setItem('max-score', score);
+        refreshGameStatus();
+    }
+}
+
+let moveInterval = setInterval(() => enemiesMove(),50);
 
 function scoreCounter(count) {
     score+=count;
