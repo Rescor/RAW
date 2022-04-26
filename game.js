@@ -163,9 +163,8 @@ function bossSpawn() {
 }
 
 function gameOver() {
-    console.log("funcGameOver")
-    localStorage.setItem('max-score', score);
-    console.log(localStorage.getItem('max-score'), "MaxScore")
+    const gameField = document.getElementById("gameField");
+    document.removeChild(gameField);
 }
 
 function checkMaxScore(score) {

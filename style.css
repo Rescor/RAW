@@ -73,3 +73,8 @@ body {
     background-size: 100%;
     position: absolute;
 }
+
+#gameOver {
+    color: red;
+    display: none;
+}
