@@ -5,7 +5,7 @@
 }
 body {
     background-blend-mode: multiply;
-    background:url('space.jpg') top repeat fixed rgba(0,0,0,.5);
+    background:url('bg_space.jpg') top repeat fixed rgba(0,0,0,.5);
     background-size: cover;
     background-position: 100%;
     overflow: hidden;
