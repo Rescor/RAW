@@ -1,8 +1,11 @@
 const hpElem            = document.querySelector("#hp");
 const scoreElem         = document.querySelector("#score");
-const maxScoreElem      = document.querySelector("#maxScore");
+const scoreCounterElem  = document.querySelector(".scoreCounter");
+const highscoreElem      = document.querySelector("#highscore");
 const tank              = document.getElementById("tank");
 const weapon            = document.getElementById("weapon");
+const gameField         = document.getElementById("gameField");
+const gameOverScreen    = document.getElementById("gameOver");
 let enemy               = document.getElementById("enemy");
 
 let positionVertical    = parseInt(getComputedStyle(tank).top);
@@ -32,7 +35,7 @@ let enemies             = {
 function refreshGameStatus() {
     hpElem.innerHTML       = hp;
     scoreElem.innerHTML    = score;
-    maxScoreElem.innerHTML = localStorage.getItem('max-score') ? localStorage.getItem('max-score') : 0;
+    highscoreElem.innerHTML = localStorage.getItem('max-score') ? localStorage.getItem('max-score') : 0;
 }
 refreshGameStatus();
 
@@ -65,15 +68,15 @@ document.onkeydown = function(e) {
 }
 
 function fire(bullet) {
-    bullet.style.top =  positionVertical + 22 + "px";
-    bullet.style.left =  positionHorizontal + 90 + "px";
+    bullet.style.top    =  positionVertical + 22 + "px";
+    bullet.style.left   =  positionHorizontal + 90 + "px";
     document.body.appendChild(bullet);
     bulletMove(bullet);
 }
 
 function bulletMove(bullet) {
-    let count = 0;
-    allEnemies = document.getElementsByClassName("enemy");
+    let count   = 0;
+    allEnemies  = document.getElementsByClassName("enemy");
 
     let bulletMoveInterval = setInterval( () => {
         bullet.style.left = positionHorizontal + 90 + count + "px";
@@ -85,7 +88,7 @@ function bulletMove(bullet) {
                     explosion(allEnemies[i]);
                     allEnemies[i].remove();
                     scoreCounter(50);
-                    checkMaxScore(score);
+                    checkhighscore(score);
                     clearInterval(bulletMoveInterval);
                 }
             }
@@ -121,7 +124,7 @@ function enemySpawner(type) {
         enemy.style.top = 400 + "px";
         enemy.style.left = 2000 + "px";
     }
-    document.body.appendChild(enemy);
+        gameField.appendChild(enemy);
 }
 
 function enemiesMove() {
@@ -163,20 +166,26 @@ function bossSpawn() {
 }
 
 function gameOver() {
-    const gameField = document.getElementById("gameField");
-    document.removeChild(gameField);
+    clearInterval(moveInterval);
+    clearInterval(enemySpawnInterval);
+    for (let i = 0; i < allLightSips.length; i++) {
+        allLightSips[i].remove();
+        }
+    document.body.removeChild(gameField);
+    scoreCounterElem.innerHTML = score;
+    gameOverScreen.style.display = "flex";
 }
 
-function checkMaxScore(score) {
+function checkhighscore(score) {
     let currentScore = score;
-    let currentMaxScore = localStorage.getItem('max-score', score);
-    if (currentScore > currentMaxScore) {
+    let currenthighscore = localStorage.getItem('max-score', score);
+    if (currentScore > currenthighscore) {
         localStorage.setItem('max-score', score);
         refreshGameStatus();
     }
 }
 
-let moveInterval = setInterval(() => enemiesMove(),50);
+let moveInterval = setInterval(() => enemiesMove(),5);
 
 function scoreCounter(count) {
     score+=count;

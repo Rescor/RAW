@@ -24,18 +24,24 @@
             <span id="score"></span>
         </div>
 
-        <div class="maxScore">
-            <span>Max Score: </span>
-            <span id="maxScore"></span>
+        <div class="highscore">
+            <span>Highscore: </span>
+            <span id="highscore"></span>
         </div>
     </div>
     <div id="tank">
         <div id="weapon"></div>
     </div>
     <div id="enemy"></div>
+    
 </div>
     <div id="gameOver">
-        GAME OVER
+        GAME OVER<br><br>
+        <div class="scoreElement">
+            <span>Your score: </span>
+            <span class="scoreCounter"></span>
+        </div>
+        <button onclick="window.location.reload();">Start again</button>
     </div>
     <script src="game.js"></script>
 </body>
