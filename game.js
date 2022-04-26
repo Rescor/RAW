@@ -149,7 +149,7 @@ let enemySpawnInterval = setInterval(() => {
         clearInterval(enemySpawnInterval);
         bossSpawn();
     };
-}, getRandomArbitrary(1500, 4000));
+}, getRandomArbitrary(500, 2500));
 
 function bossSpawn() {
     enemySpawner(enemies.boss);
@@ -185,7 +185,7 @@ function checkhighscore(score) {
     }
 }
 
-let moveInterval = setInterval(() => enemiesMove(),5);
+let moveInterval = setInterval(() => enemiesMove(), 100);
 
 function scoreCounter(count) {
     score+=count;
