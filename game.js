@@ -1,23 +1,23 @@
-const hpElem            = document.querySelector("#hp");
-const scoreElem         = document.querySelector("#score");
-const scoreCounterElem  = document.querySelector(".scoreCounter");
-const highscoreElem      = document.querySelector("#highscore");
-const tank              = document.getElementById("tank");
-const weapon            = document.getElementById("weapon");
-const gameField         = document.getElementById("gameField");
-const gameOverScreen    = document.getElementById("gameOver");
-let enemy               = document.getElementById("enemy");
+const HP_ELEMENT            = document.querySelector("#hp");
+const SCORE_ELEMENT         = document.querySelector("#score");
+const SCORE_COUNTER_ELEMENT = document.querySelector(".scoreCounter");
+const HIGHSCORE_ELEMENT     = document.querySelector("#highscore");
+const tank                  = document.getElementById("tank");
+const weapon                = document.getElementById("weapon");
+const GAME_FIELD_ELEMENT    = document.getElementById("gameField");
+const GAME_OVER_SCREEN      = document.getElementById("gameOver");
+let enemy                   = document.getElementById("enemy");
 
-let positionVertical    = parseInt(getComputedStyle(tank).top);
-let positionHorizontal  = parseInt(getComputedStyle(tank).left);
+let positionVertical        = parseInt(getComputedStyle(tank).top);
+let positionHorizontal      = parseInt(getComputedStyle(tank).left);
 
-let score               = 0;
-let hp                  = 3;
+let score                   = 0;
+let hp                      = 3;
 
 let allEnemies;
-let allLightSips;
+let allLightShips;
 
-let enemies             = {
+let enemies                 = {
     lightShip: {
         className: "lightShip",
         health: 10,
@@ -33,9 +33,9 @@ let enemies             = {
 
 
 function refreshGameStatus() {
-    hpElem.innerHTML       = hp;
-    scoreElem.innerHTML    = score;
-    highscoreElem.innerHTML = localStorage.getItem('max-score') ? localStorage.getItem('max-score') : 0;
+    HP_ELEMENT.innerHTML       = hp;
+    SCORE_ELEMENT.innerHTML    = score;
+    HIGHSCORE_ELEMENT.innerHTML = localStorage.getItem('max-score') ? localStorage.getItem('max-score') : 0;
 }
 refreshGameStatus();
 
@@ -124,24 +124,44 @@ function enemySpawner(type) {
         enemy.style.top = 400 + "px";
         enemy.style.left = 2000 + "px";
     }
-        gameField.appendChild(enemy);
+        GAME_FIELD_ELEMENT.appendChild(enemy);
 }
 
 function enemiesMove() {
-    allLightSips = document.getElementsByClassName("lightShip");    
-    for (let i = 0; i < allLightSips.length; i++) {
+    allLightShips = document.getElementsByClassName("lightShip");
+    
+    let shipsToRemove = [];
+    for (let i = 0; i < allLightShips.length; i++) {
+        enemyLeftPosition = parseInt(allLightShips[i].style.left);
+        enemyTopPosition = parseInt(allLightShips[i].style.top);
+
+        if (enemyLeftPosition <= positionHorizontal + 90 && enemyLeftPosition >= positionHorizontal) {
+             if (enemyTopPosition + 50 >= positionVertical && enemyTopPosition <= positionVertical + 50) {
+                shipsToRemove.push(allLightShips[i]);
+                playerExplosion();
+             }
+         }
         // remove enemies behind the screen and take damage
-        if (parseInt(allLightSips[i].style.left) <= -40) {
-            allLightSips[i].remove();
-            hp-=1;
-            refreshGameStatus();
-            if (hp == 0) gameOver();
+        if (enemyLeftPosition <= -40) {
+            shipsToRemove.push(allLightShips[i]);
+            
         }
 
-        allLightSips[i].style.left = parseInt(allLightSips[i].style.left) - 20 + "px";
+        allLightShips[i].style.left = enemyLeftPosition - 20 + "px";
+      
     }
-    //document.getElementById("space").style.backgroundPosition = parseInt(document.getElementById("space").style.backgroundPosition) + 10 + "%";
+    shipsToRemove.forEach(ship => {
+        ship.remove();
+        hp-=1;
+        refreshGameStatus();
+        if (hp == 0) gameOver();
+    });
 }
+
+let playerExplosion = function() {
+
+}
+
 
 let enemySpawnInterval = setInterval(() => {
     enemySpawner(enemies.lightShip);
@@ -168,12 +188,12 @@ function bossSpawn() {
 function gameOver() {
     clearInterval(moveInterval);
     clearInterval(enemySpawnInterval);
-    for (let i = 0; i < allLightSips.length; i++) {
-        allLightSips[i].remove();
+    for (let i = 0; i < allLightShips.length; i++) {
+        allLightShips[i].remove();
         }
-    document.body.removeChild(gameField);
-    scoreCounterElem.innerHTML = score;
-    gameOverScreen.style.display = "flex";
+    document.body.removeChild(GAME_FIELD_ELEMENT);
+    SCORE_COUNTER_ELEMENT.innerHTML = score;
+    GAME_OVER_SCREEN.style.display = "flex";
 }
 
 function checkhighscore(score) {
@@ -189,7 +209,7 @@ let moveInterval = setInterval(() => enemiesMove(), 100);
 
 function scoreCounter(count) {
     score+=count;
-    scoreElem.innerHTML = score;
+    SCORE_ELEMENT.innerHTML = score;
 }
 
 function getRandomArbitrary(min, max) { return Math.floor(Math.random() * (max - min) + min) }
