@@ -7,7 +7,6 @@ const weapon                = document.getElementById("weapon");
 const GAME_FIELD_ELEMENT    = document.getElementById("gameField");
 const GAME_OVER_SCREEN      = document.getElementById("gameOver");
 let enemy                   = document.getElementById("enemy");
-
 let positionVertical        = parseInt(getComputedStyle(tank).top);
 let positionHorizontal      = parseInt(getComputedStyle(tank).left);
 
@@ -61,9 +60,11 @@ document.onkeydown = function(e) {
     }
 
     if (e.code === "Space") {
-        let bullet = document.createElement("div");
-        bullet.classList.add("bullet");
-        fire(bullet);
+        if (hp > 0) {
+            let bullet = document.createElement("div");
+            bullet.classList.add("bullet");
+            fire(bullet);
+        }
     }
 }
 
@@ -102,11 +103,11 @@ function bulletMove(bullet) {
     }, 4);
 }
 
-function explosion(enemy) {
+function explosion(ship) {
     let explosion = document.createElement("div");
     explosion.classList.add("explosion");
-    explosion.style.top = enemy.style.top;
-    explosion.style.left = enemy.style.left;
+    explosion.style.top = ship.style.top;
+    explosion.style.left = ship.style.left;
     document.body.appendChild(explosion);
     setTimeout(() => {document.body.removeChild(explosion)}, 850);
 }
@@ -139,6 +140,11 @@ function enemiesMove() {
              if (enemyTopPosition + 50 >= positionVertical && enemyTopPosition <= positionVertical + 50) {
                 shipsToRemove.push(allLightShips[i]);
                 playerExplosion();
+                explosion(allLightShips[i]);
+                hp-=1;
+                refreshGameStatus()
+                removeAllShips();
+                if (hp == 0) gameOver();
              }
          }
         // remove enemies behind the screen and take damage
@@ -150,6 +156,7 @@ function enemiesMove() {
         allLightShips[i].style.left = enemyLeftPosition - 20 + "px";
       
     }
+    
     shipsToRemove.forEach(ship => {
         ship.remove();
         hp-=1;
@@ -158,8 +165,29 @@ function enemiesMove() {
     });
 }
 
-let playerExplosion = function() {
+let removeAllShips = function() {
+    let allLightShips = document.getElementsByClassName("lightShip");
+    for (let i = 0; i < allLightShips.length; i++) {
+        GAME_FIELD_ELEMENT.removeChild(allLightShips[i]);
+        i-=1;
+    }
+}
 
+
+let playerExplosion = function() {
+    explosion(tank);
+    GAME_FIELD_ELEMENT.removeChild(tank);
+    tank.style.left = "100px";
+    tank.style.top = "400px";
+    positionVertical = 400;
+    positionHorizontal = 100;
+    
+
+    let spawnTank = function() {
+        GAME_FIELD_ELEMENT.appendChild(tank);
+    }
+    setTimeout(spawnTank, 1000);
+    //spawnTank();
 }
 
 
