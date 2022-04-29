@@ -98,37 +98,6 @@ document.onkeyup = function(e) {
     if (e.code === "Space")         { keysPressed.Space = false; }
 }
 
-
-// document.onkeydown = function(e) {
-//     if (e.code === "ArrowUp") {
-//         tank.style.top = positionVertical - 20 + "px";
-//         positionVertical = parseInt(getComputedStyle(tank).top);
-//     }
-
-//     if (e.code === "ArrowDown") {
-//         tank.style.top = positionVertical + 20 + "px";
-//         positionVertical = parseInt(getComputedStyle(tank).top);
-//     }
-
-//     if (e.code === "ArrowLeft") {
-//         tank.style.left = positionHorizontal - 20 + "px";
-//         positionHorizontal = parseInt(getComputedStyle(tank).left);
-//     }
-
-//     if (e.code === "ArrowRight") {
-//         tank.style.left = positionHorizontal + 20 + "px";
-//         positionHorizontal = parseInt(getComputedStyle(tank).left);
-//     }
-
-//     if (e.code === "Space") {
-//         if (hp > 0 && !overheat) {
-//             let bullet = document.createElement("div");
-//             bullet.classList.add("bullet");
-//             fire(bullet);
-//         }
-//     }
-// }
-
 function fire(bullet) {
     bullet.style.top    =  positionVertical + 22 + "px";
     bullet.style.left   =  positionHorizontal + 90 + "px";
@@ -255,7 +224,6 @@ let playerExplosion = function() {
         GAME_FIELD_ELEMENT.appendChild(tank);
     }
     setTimeout(spawnTank, 1000);
-    //spawnTank();
 }
 
 
