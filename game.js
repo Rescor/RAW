@@ -31,6 +31,13 @@ let enemies                 = {
     }
 }
 
+let keysPressed = {
+    ArrowUp:    false,
+    ArrowDown:  false,
+    ArrowLeft:  false,
+    ArrowRight: false,
+    Space:      false,
+}
 
 function refreshGameStatus() {
     HP_ELEMENT.innerHTML       = hp;
@@ -39,28 +46,24 @@ function refreshGameStatus() {
 }
 refreshGameStatus();
 
-document.onkeydown = function(e) {
-    if (e.code === "ArrowUp") {
-        tank.style.top = positionVertical - 20 + "px";
+let playerMoving = function() {
+    if (keysPressed.ArrowUp) {
+        tank.style.top = positionVertical - 10 + "px";
         positionVertical = parseInt(getComputedStyle(tank).top);
     }
-
-    if (e.code === "ArrowDown") {
-        tank.style.top = positionVertical + 20 + "px";
+    if (keysPressed.ArrowDown) {
+        tank.style.top = positionVertical + 10 + "px";
         positionVertical = parseInt(getComputedStyle(tank).top);
     }
-
-    if (e.code === "ArrowLeft") {
-        tank.style.left = positionHorizontal - 20 + "px";
+    if (keysPressed.ArrowLeft) {
+        tank.style.left = positionHorizontal - 10 + "px";
         positionHorizontal = parseInt(getComputedStyle(tank).left);
     }
-
-    if (e.code === "ArrowRight") {
-        tank.style.left = positionHorizontal + 20 + "px";
+    if (keysPressed.ArrowRight) {
+        tank.style.left = positionHorizontal + 10 + "px";
         positionHorizontal = parseInt(getComputedStyle(tank).left);
     }
-
-    if (e.code === "Space") {
+    if (keysPressed.Space) {
         if (hp > 0 && !overheat) {
             let bullet = document.createElement("div");
             bullet.classList.add("bullet");
@@ -68,6 +71,63 @@ document.onkeydown = function(e) {
         }
     }
 }
+
+
+
+document.onkeydown = function(e) {
+    if (e.code === "ArrowUp")       { keysPressed.ArrowUp = true; }
+
+    if (e.code === "ArrowDown")     { keysPressed.ArrowDown = true; }
+
+    if (e.code === "ArrowLeft")     { keysPressed.ArrowLeft = true; }
+
+    if (e.code === "ArrowRight")    { keysPressed.ArrowRight = true; }
+
+    if (e.code === "Space")         { keysPressed.Space = true; }
+}
+
+document.onkeyup = function(e) {
+    if (e.code === "ArrowUp")       { keysPressed.ArrowUp = false; }
+
+    if (e.code === "ArrowDown")     { keysPressed.ArrowDown = false; }
+
+    if (e.code === "ArrowLeft")     { keysPressed.ArrowLeft = false; }
+
+    if (e.code === "ArrowRight")    { keysPressed.ArrowRight = false; }
+
+    if (e.code === "Space")         { keysPressed.Space = false; }
+}
+
+
+// document.onkeydown = function(e) {
+//     if (e.code === "ArrowUp") {
+//         tank.style.top = positionVertical - 20 + "px";
+//         positionVertical = parseInt(getComputedStyle(tank).top);
+//     }
+
+//     if (e.code === "ArrowDown") {
+//         tank.style.top = positionVertical + 20 + "px";
+//         positionVertical = parseInt(getComputedStyle(tank).top);
+//     }
+
+//     if (e.code === "ArrowLeft") {
+//         tank.style.left = positionHorizontal - 20 + "px";
+//         positionHorizontal = parseInt(getComputedStyle(tank).left);
+//     }
+
+//     if (e.code === "ArrowRight") {
+//         tank.style.left = positionHorizontal + 20 + "px";
+//         positionHorizontal = parseInt(getComputedStyle(tank).left);
+//     }
+
+//     if (e.code === "Space") {
+//         if (hp > 0 && !overheat) {
+//             let bullet = document.createElement("div");
+//             bullet.classList.add("bullet");
+//             fire(bullet);
+//         }
+//     }
+// }
 
 function fire(bullet) {
     bullet.style.top    =  positionVertical + 22 + "px";
@@ -180,7 +240,6 @@ let setOverheat = function() {
         overheat = true;
         setTimeout(() => overheat = false, 250);
     };
-    console.log("Overheat: ", overheat)
 }
 
 let playerExplosion = function() {
@@ -225,6 +284,7 @@ function bossSpawn() {
 function gameOver() {
     clearInterval(moveInterval);
     clearInterval(enemySpawnInterval);
+    clearInterval(playerMovingInterval);
     for (let i = 0; i < allLightShips.length; i++) {
         allLightShips[i].remove();
         }
@@ -241,6 +301,8 @@ function checkhighscore(score) {
         refreshGameStatus();
     }
 }
+
+let playerMovingInterval = setInterval(playerMoving, 20);
 
 let moveInterval = setInterval(() => enemiesMove(), 100);
 
