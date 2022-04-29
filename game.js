@@ -72,8 +72,6 @@ let playerMoving = function() {
     }
 }
 
-
-
 document.onkeydown = function(e) {
     if (e.code === "ArrowUp")       { keysPressed.ArrowUp = true; }
 
@@ -253,6 +251,7 @@ function gameOver() {
     clearInterval(moveInterval);
     clearInterval(enemySpawnInterval);
     clearInterval(playerMovingInterval);
+    clearInterval(backgroundMoveInterval);
     for (let i = 0; i < allLightShips.length; i++) {
         allLightShips[i].remove();
         }
@@ -271,6 +270,11 @@ function checkhighscore(score) {
 }
 
 let playerMovingInterval = setInterval(playerMoving, 20);
+
+let backgroundMoveInterval = setInterval(() => {
+    let body = document.body;
+    body.style.backgroundPosition = parseInt(getComputedStyle(body).backgroundPosition) + 1 + "%";
+}, 33);
 
 let moveInterval = setInterval(() => enemiesMove(), 100);
 
