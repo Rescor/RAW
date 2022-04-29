@@ -12,6 +12,7 @@ let positionHorizontal      = parseInt(getComputedStyle(tank).left);
 
 let score                   = 0;
 let hp                      = 3;
+let overheat                = false;
 
 let allEnemies;
 let allLightShips;
@@ -60,7 +61,7 @@ document.onkeydown = function(e) {
     }
 
     if (e.code === "Space") {
-        if (hp > 0) {
+        if (hp > 0 && !overheat) {
             let bullet = document.createElement("div");
             bullet.classList.add("bullet");
             fire(bullet);
@@ -73,6 +74,7 @@ function fire(bullet) {
     bullet.style.left   =  positionHorizontal + 90 + "px";
     document.body.appendChild(bullet);
     bulletMove(bullet);
+    setOverheat();
 }
 
 function bulletMove(bullet) {
@@ -173,14 +175,21 @@ let removeAllShips = function() {
     }
 }
 
+let setOverheat = function() {
+    if (!overheat) {
+        overheat = true;
+        setTimeout(() => overheat = false, 250);
+    };
+    console.log("Overheat: ", overheat)
+}
 
 let playerExplosion = function() {
     explosion(tank);
     GAME_FIELD_ELEMENT.removeChild(tank);
-    tank.style.left = "100px";
-    tank.style.top = "400px";
-    positionVertical = 400;
-    positionHorizontal = 100;
+    tank.style.left     = "100px";
+    tank.style.top      = "400px";
+    positionVertical    = 400;
+    positionHorizontal  = 100;
     
 
     let spawnTank = function() {
