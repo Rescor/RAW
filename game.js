@@ -182,7 +182,7 @@ function enemiesMove() {
             
         }
 
-        allLightShips[i].style.left = enemyLeftPosition - 20 + "px";
+        allLightShips[i].style.left = enemyLeftPosition - 6 + "px";
       
     }
     
@@ -276,7 +276,7 @@ let backgroundMoveInterval = setInterval(() => {
     body.style.backgroundPosition = parseInt(getComputedStyle(body).backgroundPosition) + 1 + "%";
 }, 33);
 
-let moveInterval = setInterval(() => enemiesMove(), 100);
+let moveInterval = setInterval(() => enemiesMove(), 30);
 
 function scoreCounter(count) {
     score+=count;
