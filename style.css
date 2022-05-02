@@ -5,7 +5,7 @@
 }
 body {
     background-blend-mode: multiply;
-    background:url('bg_space.jpg') top repeat fixed rgba(0,0,0,.5);
+    background:url("assets/bg_space.jpg") top repeat fixed rgba(0,0,0,.5);
     background-size: cover;
     background-position: 100%;
     overflow: hidden;
@@ -29,21 +29,23 @@ body {
 
 #tank {
     position: absolute;
-    background-color: rgb(255, 0, 0);
-    width: 50px;
+    /* background-color: rgb(255, 0, 0); */
+    background: url('assets/player.png');
+    background-size: cover;
+    width: 80px;
     height: 50px;
     top: 400px;
     left: 100px;
 }
 
-#weapon {
+/* #weapon {
     background-color: blue;
     position: absolute;
     width: 40px;
     height: 8px;
     left: 50px;
     top: 21px;
-}
+} */
 
 .bullet {
     width: 20px;
@@ -53,23 +55,26 @@ body {
 }
 
 .lightShip {
-    width: 40px;
-    height: 40px;
-    background-color: lime;
+    width: 66px;
+    height: 45px;
+    background: url('assets/enemy_01.png');
+    background-size: cover;
     position: absolute;
 }
 
 .boss {
-    width: 400px;
-    height: 300px;
-    background-image: url(boss.jpg);
     position: absolute;
+    height: 300px;
+}
+.boss img {
+    max-height:100%;
+    width: 500px;
 }
 
 .explosion {
     width: 40px;
     height: 40px;
-    background-image: url("explosion.gif");
+    background-image: url("assets/explosion.gif");
     background-size: 100%;
     position: absolute;
 }
