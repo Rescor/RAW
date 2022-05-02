@@ -12,6 +12,34 @@ body {
 }
 
 
+/* ======== START SCREEN ========*/
+
+#logo {
+    color: red;
+}
+#startScreen {
+    display: flex;
+    margin: 20px;
+}
+
+#startScreen_menu a {
+    color: rgb(255, 94, 0);
+    padding: 5px;
+    text-decoration: none;
+    border: 3px solid rgb(255, 94, 0);
+
+}
+
+#startScreen_menu a:hover {
+    background-color: rgb(68, 68, 68);
+}
+
+
+
+
+
+/* ======== GAME FIELD ========*/
+
 #statusbar {
     display: flex;
 	-webkit-flex-direction: row;

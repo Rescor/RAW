@@ -156,7 +156,7 @@ function enemySpawner(type) {
     if (type.className == "boss"){
         enemy.classList.add(type.className);
         enemy.classList.add("enemy");
-        enemy.style.top = 400 + "px";
+        enemy.style.top = 300 + "px";
         enemy.style.left = 2000 + "px";
         GAME_FIELD_ELEMENT.appendChild(enemy);
         enemy.innerHTML = '<img src="' + enemies.boss.assetPath + '">';
