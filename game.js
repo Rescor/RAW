@@ -14,6 +14,8 @@ let score                   = 0;
 let hp                      = 3;
 let overheat                = false;
 
+const BOSS_SPAWN_SCORE      = 500;
+
 let allEnemies;
 let allLightShips;
 
@@ -21,13 +23,12 @@ let enemies                 = {
     lightShip: {
         className: "lightShip",
         health: 10,
-        color: "green",
     },
 
     boss: {
         className: "boss",
         health: 50,
-        color: "blue",
+        assetPath: "assets/boss.png",
     }
 }
 
@@ -112,13 +113,14 @@ function bulletMove(bullet) {
     let bulletMoveInterval = setInterval( () => {
         bullet.style.left = bulletPosition + 90 + count + "px";
         count += 3;
-        
+
         for (let i = 0; i < allEnemies.length; i++) {
-            if (parseInt(bullet.style.left) + 20 >= parseInt(getComputedStyle(allEnemies[i]).left) && parseInt(bullet.style.left) - 70 <= parseInt(getComputedStyle(allEnemies[i]).left)) {
-                if (parseInt(bullet.style.top) >= parseInt(getComputedStyle(allEnemies[i]).top) && parseInt(bullet.style.top) <= parseInt(getComputedStyle(allEnemies[i]).top) + 40) {
+            let enemy = allEnemies[i];
+            if (parseInt(bullet.style.left) + 20 >= parseInt(getComputedStyle(enemy).left) && parseInt(bullet.style.left) - 70 <= parseInt(getComputedStyle(enemy).left)) {
+                if (parseInt(bullet.style.top) >= parseInt(getComputedStyle(enemy).top) && parseInt(bullet.style.top) <= parseInt(getComputedStyle(enemy).top) + parseInt(getComputedStyle(enemy).height)) {
                     bullet.remove();
-                    explosion(allEnemies[i]);
-                    allEnemies[i].remove();
+                    explosion(enemy);
+                    enemy.remove();
                     scoreCounter(50);
                     checkhighscore(score);
                     clearInterval(bulletMoveInterval);
@@ -127,7 +129,7 @@ function bulletMove(bullet) {
         }
         
 
-        if (count == 3000) {
+        if (count == 999) {
             clearInterval(bulletMoveInterval);
             bullet.remove()
         };
@@ -149,14 +151,18 @@ function enemySpawner(type) {
         enemy.classList.add(type.className, "enemy");
         enemy.style.top = getRandomArbitrary(100,900) + "px";
         enemy.style.left = 2000 + "px";
+        GAME_FIELD_ELEMENT.appendChild(enemy);
     }
     if (type.className == "boss"){
         enemy.classList.add(type.className);
         enemy.classList.add("enemy");
         enemy.style.top = 400 + "px";
         enemy.style.left = 2000 + "px";
-    }
         GAME_FIELD_ELEMENT.appendChild(enemy);
+        enemy.innerHTML = '<img src="' + enemies.boss.assetPath + '">';
+
+    }
+        
 }
 
 function enemiesMove() {
@@ -229,7 +235,7 @@ let playerExplosion = function() {
 
 let enemySpawnInterval = setInterval(() => {
     enemySpawner(enemies.lightShip);
-    if (score == 450) {
+    if (score == BOSS_SPAWN_SCORE) {
         clearInterval(enemySpawnInterval);
         bossSpawn();
     };
@@ -239,7 +245,6 @@ function bossSpawn() {
     enemySpawner(enemies.boss);
     let bossSteps = 0; 
     let bossElement = document.getElementsByClassName("boss");
-    console.log(bossElement);
     let bossMoveInterval = setInterval(()=> {
         bossElement[0].style.left = parseInt(bossElement[0].style.left) - 50 + "px";
         bossSteps++;
