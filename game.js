@@ -107,10 +107,12 @@ function fire(bullet) {
 function bulletMove(bullet) {
     let count   = 0;
     allEnemies  = document.getElementsByClassName("enemy");
+    let bulletPosition = positionHorizontal;
 
     let bulletMoveInterval = setInterval( () => {
-        bullet.style.left = positionHorizontal + 90 + count + "px";
+        bullet.style.left = bulletPosition + 90 + count + "px";
         count += 3;
+        
         for (let i = 0; i < allEnemies.length; i++) {
             if (parseInt(bullet.style.left) + 20 >= parseInt(getComputedStyle(allEnemies[i]).left) && parseInt(bullet.style.left) - 70 <= parseInt(getComputedStyle(allEnemies[i]).left)) {
                 if (parseInt(bullet.style.top) >= parseInt(getComputedStyle(allEnemies[i]).top) && parseInt(bullet.style.top) <= parseInt(getComputedStyle(allEnemies[i]).top) + 40) {
