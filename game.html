@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>~Ahri</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="game.css">
+</head>
+<body>
+<div id="gameField">
+    <div id="statusbar">
+        <div class="hpElement">
+            <span>Health: </span>
+            <span id="hp"></span>
+        </div>
+        
+        <div class="scoreElement">
+            <span>Score: </span>
+            <span id="score"></span>
+        </div>
+
+        <div class="highscore">
+            <span>Highscore: </span>
+            <span id="highscore"></span>
+        </div>
+    </div>
+    <div id="tank">
+        <div id="weapon"></div>
+    </div>
+    <div id="enemy"></div>
+    
+</div>
+    <div id="gameOver">
+        GAME OVER<br><br>
+        <div class="scoreElement">
+            <span>Your score: </span>
+            <span class="scoreCounter"></span>
+        </div>
+        <button onclick="window.location.reload();">Start again</button>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
