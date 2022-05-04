@@ -6,6 +6,7 @@ const tank                  = document.getElementById("tank");
 const weapon                = document.getElementById("weapon");
 const GAME_FIELD_ELEMENT    = document.getElementById("gameField");
 const GAME_OVER_SCREEN      = document.getElementById("gameOver");
+const REMAINING_ENEMIES_ELEMENT = document.getElementById("remainingEnemies");
 let enemy                   = document.getElementById("enemy");
 let positionVertical        = parseInt(getComputedStyle(tank).top);
 let positionHorizontal      = parseInt(getComputedStyle(tank).left);
@@ -13,6 +14,8 @@ let positionHorizontal      = parseInt(getComputedStyle(tank).left);
 let score                   = 0;
 let hp                      = 3;
 let overheat                = false;
+let remainingEnemies        = 20;
+let remainingSpawnEnemies   = 20;
 
 const BOSS_SPAWN_SCORE      = 500;
 
@@ -29,6 +32,7 @@ let enemies                 = {
         className: "boss",
         health: 50,
         assetPath: "assets/boss.png",
+        immune: 1,
     }
 }
 
@@ -41,9 +45,10 @@ let keysPressed = {
 }
 
 function refreshGameStatus() {
-    HP_ELEMENT.innerHTML       = hp;
-    SCORE_ELEMENT.innerHTML    = score;
+    HP_ELEMENT.innerHTML        = hp;
+    SCORE_ELEMENT.innerHTML     = score;
     HIGHSCORE_ELEMENT.innerHTML = localStorage.getItem('max-score') ? localStorage.getItem('max-score') : 0;
+    REMAINING_ENEMIES_ELEMENT.innerHTML   = remainingEnemies;
 }
 refreshGameStatus();
 
@@ -112,28 +117,51 @@ function bulletMove(bullet) {
 
     let bulletMoveInterval = setInterval( () => {
         bullet.style.left = bulletPosition + 90 + count + "px";
-        count += 3;
+        count += 16;
 
         for (let i = 0; i < allEnemies.length; i++) {
             let enemy = allEnemies[i];
-            if (parseInt(bullet.style.left) + 20 >= parseInt(getComputedStyle(enemy).left) && parseInt(bullet.style.left) - 70 <= parseInt(getComputedStyle(enemy).left)) {
-                if (parseInt(bullet.style.top) >= parseInt(getComputedStyle(enemy).top) && parseInt(bullet.style.top) <= parseInt(getComputedStyle(enemy).top) + parseInt(getComputedStyle(enemy).height)) {
-                    bullet.remove();
-                    explosion(enemy);
-                    enemy.remove();
-                    scoreCounter(50);
-                    checkhighscore(score);
-                    clearInterval(bulletMoveInterval);
+            
+            if (remainingEnemies > 0) {
+                if (parseInt(bullet.style.left) + 20 >= parseInt(getComputedStyle(enemy).left) && parseInt(bullet.style.left) - 70 <= parseInt(getComputedStyle(enemy).left)) {
+                    if (parseInt(bullet.style.top) >= parseInt(getComputedStyle(enemy).top) && parseInt(bullet.style.top) <= parseInt(getComputedStyle(enemy).top) + parseInt(getComputedStyle(enemy).height)) {
+                        bullet.remove();
+                        explosion(enemy);
+                        enemy.remove();
+                        // scoreCounter(50);
+                        remainingEnemies -= 1;
+                        refreshGameStatus();
+                        checkhighscore(score);
+                        clearInterval(bulletMoveInterval);
+                    }
                 }
             }
-        }
+            
+            
+                 if (parseInt(bullet.style.left) + 20 >= parseInt(getComputedStyle(enemy).left) && parseInt(bullet.style.left) - 70 <= parseInt(getComputedStyle(enemy).left) && enemies.boss.immune == 0) {
+                     if (parseInt(bullet.style.top) >= parseInt(getComputedStyle(enemy).top) && parseInt(bullet.style.top) <= parseInt(getComputedStyle(enemy).top) + parseInt(getComputedStyle(enemy).height)) {
+                         bullet.remove();
+                         explosion(enemy);
+                         enemy.remove();
+                         // scoreCounter(50);
+                         refreshGameStatus();
+                         checkhighscore(score);
+                         clearInterval(bulletMoveInterval);
+                     }
+                 }
+                }
+            
+            
+ 
+            
+        
         
 
-        if (count == 999) {
+        if (count == 3000) {
             clearInterval(bulletMoveInterval);
             bullet.remove()
         };
-    }, 4);
+    }, 16);
 }
 
 function explosion(ship) {
@@ -234,8 +262,11 @@ let playerExplosion = function() {
 
 
 let enemySpawnInterval = setInterval(() => {
+    if (remainingSpawnEnemies > 0) {
     enemySpawner(enemies.lightShip);
-    if (score == BOSS_SPAWN_SCORE) {
+    remainingSpawnEnemies -= 1;
+    }
+    if (remainingSpawnEnemies == 0 && remainingEnemies == 0) {
         clearInterval(enemySpawnInterval);
         bossSpawn();
     };
@@ -250,6 +281,7 @@ function bossSpawn() {
         bossSteps++;
         if (bossSteps == 13) {
             clearInterval(bossMoveInterval);
+            enemies.boss.immune = 0;
         }
     }, 300)
 }

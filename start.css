@@ -82,7 +82,6 @@ body {
 .hpElement, .scoreElement, .highscore {
     padding: 5px 10px;
 }
-
 #tank {
     position: absolute;
     /* background-color: rgb(255, 0, 0); */

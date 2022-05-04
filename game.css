@@ -51,7 +51,7 @@ body {
 }
 
 
-.hpElement, .scoreElement, .highscore {
+.hpElement, .scoreElement, .highscore, .remainingEnemies {
     padding: 5px 10px;
 }
 
