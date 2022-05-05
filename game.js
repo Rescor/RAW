@@ -16,8 +16,8 @@ let positionHorizontal      = parseInt(getComputedStyle(tank).left);
 let score                   = 0;
 let hp                      = 3;
 let overheat                = false;
-let remainingEnemies        = 10;
-let remainingSpawnEnemies   = 10;
+let remainingEnemies        = 1;
+let remainingSpawnEnemies   = 1;
 
 const BOSS_SPAWN_SCORE      = 500;
 
@@ -66,21 +66,33 @@ refreshGameStatus();
 
 let playerMoving = function() {
     if (keysPressed.ArrowUp) {
-        tank.style.top = positionVertical - 10 + "px";
-        positionVertical = parseInt(getComputedStyle(tank).top);
+        if (parseInt(getComputedStyle(tank).top) - 10 >= 160){
+            tank.style.top = positionVertical - 10 + "px";
+            positionVertical = parseInt(getComputedStyle(tank).top);
+        }
     }
+
     if (keysPressed.ArrowDown) {
-        tank.style.top = positionVertical + 10 + "px";
-        positionVertical = parseInt(getComputedStyle(tank).top);
+        if (parseInt(getComputedStyle(tank).top) + 10 <= 790){
+            tank.style.top = positionVertical + 10 + "px";
+            positionVertical = parseInt(getComputedStyle(tank).top);
+        }
     }
+
     if (keysPressed.ArrowLeft) {
-        tank.style.left = positionHorizontal - 10 + "px";
-        positionHorizontal = parseInt(getComputedStyle(tank).left);
+        if (parseInt(getComputedStyle(tank).left) - 10 >= 15){
+            tank.style.left = positionHorizontal - 10 + "px";
+            positionHorizontal = parseInt(getComputedStyle(tank).left);
+        }
     }
+
     if (keysPressed.ArrowRight) {
-        tank.style.left = positionHorizontal + 10 + "px";
-        positionHorizontal = parseInt(getComputedStyle(tank).left);
+        if (parseInt(getComputedStyle(tank).left) + 10 <= 1300){
+            tank.style.left = positionHorizontal + 10 + "px";
+            positionHorizontal = parseInt(getComputedStyle(tank).left);
+        }
     }
+
     if (keysPressed.Space) {
         if (hp > 0 && !overheat) {
             let bullet = document.createElement("div");
@@ -91,27 +103,27 @@ let playerMoving = function() {
 }
 
 document.onkeydown = function(e) {
-    if (e.code === "ArrowUp")       { keysPressed.ArrowUp = true; }
+    if (e.code === "ArrowUp" || e.code === "KeyW")       { keysPressed.ArrowUp = true; }
 
-    if (e.code === "ArrowDown")     { keysPressed.ArrowDown = true; }
+    if (e.code === "ArrowDown" || e.code === "KeyS")     { keysPressed.ArrowDown = true; }
 
-    if (e.code === "ArrowLeft")     { keysPressed.ArrowLeft = true; }
+    if (e.code === "ArrowLeft" || e.code === "KeyA")     { keysPressed.ArrowLeft = true; }
 
-    if (e.code === "ArrowRight")    { keysPressed.ArrowRight = true; }
+    if (e.code === "ArrowRight" || e.code === "KeyD")    { keysPressed.ArrowRight = true; }
 
-    if (e.code === "Space")         { keysPressed.Space = true; }
+    if (e.code === "Space")                              { keysPressed.Space = true; }
 }
 
 document.onkeyup = function(e) {
-    if (e.code === "ArrowUp")       { keysPressed.ArrowUp = false; }
+    if (e.code === "ArrowUp" || e.code === "KeyW")       { keysPressed.ArrowUp = false; }
 
-    if (e.code === "ArrowDown")     { keysPressed.ArrowDown = false; }
+    if (e.code === "ArrowDown" || e.code === "KeyS")     { keysPressed.ArrowDown = false; }
 
-    if (e.code === "ArrowLeft")     { keysPressed.ArrowLeft = false; }
+    if (e.code === "ArrowLeft" || e.code === "KeyA")     { keysPressed.ArrowLeft = false; }
 
-    if (e.code === "ArrowRight")    { keysPressed.ArrowRight = false; }
+    if (e.code === "ArrowRight" || e.code === "KeyD")    { keysPressed.ArrowRight = false; }
 
-    if (e.code === "Space")         { keysPressed.Space = false; }
+    if (e.code === "Space")                              { keysPressed.Space = false; }
 }
 
 function fire(bullet) {
