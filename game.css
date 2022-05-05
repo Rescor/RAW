@@ -12,33 +12,30 @@ body {
 }
 
 
-/* ======== START SCREEN ========*/
-
-#logo {
-    color: red;
-}
-#startScreen {
-    display: flex;
-    margin: 20px;
-}
-
-#startScreen_menu a {
-    color: rgb(255, 94, 0);
-    padding: 5px;
-    text-decoration: none;
-    border: 3px solid rgb(255, 94, 0);
-
-}
-
-#startScreen_menu a:hover {
-    background-color: rgb(68, 68, 68);
-}
-
-
-
-
-
 /* ======== GAME FIELD ========*/
+#gameField {
+    display: flex;
+    flex-direction: column;
+}
+
+#bossHealthString {
+    width: 100%;
+    color: red;
+    display: flex;
+    flex-direction: column;
+}
+#bossHealth {
+    display: flex;
+    margin: 50px 25%;
+    justify-content:flex-start;
+    border: 1px solid red;
+}
+.healthBarCell {
+    width: 50px;
+    height: 15px;
+    background-color: red;
+    
+}
 
 #statusbar {
     display: flex;

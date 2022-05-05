@@ -6,6 +6,7 @@ const tank                  = document.getElementById("tank");
 const weapon                = document.getElementById("weapon");
 const GAME_FIELD_ELEMENT    = document.getElementById("gameField");
 const GAME_OVER_SCREEN      = document.getElementById("gameOver");
+const BOSS_HEALTH_ELEMENT   = document.getElementById("bossHealth");
 const REMAINING_ENEMIES_ELEMENT = document.getElementById("remainingEnemies");
 let enemy                   = document.getElementById("enemy");
 let positionVertical        = parseInt(getComputedStyle(tank).top);
@@ -14,8 +15,8 @@ let positionHorizontal      = parseInt(getComputedStyle(tank).left);
 let score                   = 0;
 let hp                      = 3;
 let overheat                = false;
-let remainingEnemies        = 20;
-let remainingSpawnEnemies   = 20;
+let remainingEnemies        = 1;
+let remainingSpawnEnemies   = 1;
 
 const BOSS_SPAWN_SCORE      = 500;
 
@@ -30,7 +31,7 @@ let enemies                 = {
 
     boss: {
         className: "boss",
-        health: 50,
+        health: 20,
         assetPath: "assets/boss.png",
         immune: 1,
     }
@@ -49,6 +50,12 @@ function refreshGameStatus() {
     SCORE_ELEMENT.innerHTML     = score;
     HIGHSCORE_ELEMENT.innerHTML = localStorage.getItem('max-score') ? localStorage.getItem('max-score') : 0;
     REMAINING_ENEMIES_ELEMENT.innerHTML   = remainingEnemies;
+    if (remainingEnemies == 0) {
+        BOSS_HEALTH_ELEMENT.innerHTML = '';
+        for (let i = 0; i < enemies.boss.health; i++) {
+            BOSS_HEALTH_ELEMENT.innerHTML += '<div class="healthBarCell"></div>'
+        }
+    }
 }
 refreshGameStatus();
 
@@ -141,12 +148,15 @@ function bulletMove(bullet) {
                  if (parseInt(bullet.style.left) + 20 >= parseInt(getComputedStyle(enemy).left) && parseInt(bullet.style.left) - 70 <= parseInt(getComputedStyle(enemy).left) && enemies.boss.immune == 0) {
                      if (parseInt(bullet.style.top) >= parseInt(getComputedStyle(enemy).top) && parseInt(bullet.style.top) <= parseInt(getComputedStyle(enemy).top) + parseInt(getComputedStyle(enemy).height)) {
                          bullet.remove();
-                         explosion(enemy);
-                         enemy.remove();
                          // scoreCounter(50);
+                         enemies.boss.health -= 1;
                          refreshGameStatus();
                          checkhighscore(score);
                          clearInterval(bulletMoveInterval);
+                         if (enemies.boss.health == 0) {
+                            explosion(enemy);
+                            enemy.remove();
+                         }
                      }
                  }
                 }
