@@ -23,6 +23,7 @@ body {
     color: red;
     display: flex;
     flex-direction: column;
+    display: none;
 }
 #bossHealth {
     display: flex;
@@ -31,6 +32,7 @@ body {
     border: 1px solid red;
 }
 .healthBarCell {
+    max-width: 5%;
     width: 50px;
     height: 15px;
     background-color: red;

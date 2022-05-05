@@ -7,6 +7,7 @@ const weapon                = document.getElementById("weapon");
 const GAME_FIELD_ELEMENT    = document.getElementById("gameField");
 const GAME_OVER_SCREEN      = document.getElementById("gameOver");
 const BOSS_HEALTH_ELEMENT   = document.getElementById("bossHealth");
+const BOSS_HEALTH_STRING_ELEMENT   = document.getElementById("bossHealthString");
 const REMAINING_ENEMIES_ELEMENT = document.getElementById("remainingEnemies");
 let enemy                   = document.getElementById("enemy");
 let positionVertical        = parseInt(getComputedStyle(tank).top);
@@ -15,8 +16,8 @@ let positionHorizontal      = parseInt(getComputedStyle(tank).left);
 let score                   = 0;
 let hp                      = 3;
 let overheat                = false;
-let remainingEnemies        = 1;
-let remainingSpawnEnemies   = 1;
+let remainingEnemies        = 10;
+let remainingSpawnEnemies   = 10;
 
 const BOSS_SPAWN_SCORE      = 500;
 
@@ -52,9 +53,13 @@ function refreshGameStatus() {
     REMAINING_ENEMIES_ELEMENT.innerHTML   = remainingEnemies;
     if (remainingEnemies == 0) {
         BOSS_HEALTH_ELEMENT.innerHTML = '';
+        BOSS_HEALTH_STRING_ELEMENT.style.display = "inherit";
         for (let i = 0; i < enemies.boss.health; i++) {
             BOSS_HEALTH_ELEMENT.innerHTML += '<div class="healthBarCell"></div>'
         }
+    if (enemies.boss.health == 0) {
+        BOSS_HEALTH_STRING_ELEMENT.style.display = "none";
+    }
     }
 }
 refreshGameStatus();
