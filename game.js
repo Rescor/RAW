@@ -228,6 +228,7 @@ function enemiesMove() {
                 shipsToRemove.push(allLightShips[i]);
                 playerExplosion();
                 explosion(allLightShips[i]);
+                remainingSpawnEnemies += 1;
                 hp-=1;
                 refreshGameStatus()
                 removeAllShips();
@@ -237,7 +238,7 @@ function enemiesMove() {
         // remove enemies behind the screen and take damage
         if (enemyLeftPosition <= -40) {
             shipsToRemove.push(allLightShips[i]);
-            
+            remainingSpawnEnemies += 1;
         }
 
         allLightShips[i].style.left = enemyLeftPosition - 6 + "px";
