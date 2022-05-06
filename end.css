@@ -1,0 +1,47 @@
+* {
+    font-family: 'Roboto', sans-serif;
+    font-size: 30px;
+    margin: 0px;
+}
+body {
+    background-blend-mode: multiply;
+    /* background:url("assets/main_bg2.jpg") top repeat fixed rgba(3, 2, 2, 0.651); */
+    background:url("assets/bg_fox.jpg") top repeat fixed rgba(238, 95, 0, 0.719);
+
+    background-position-y: 85%;
+    background-size:cover;
+    overflow: hidden;
+}
+
+
+/* ======== STORY SCREEN ======== */
+.logo {
+    color: red;
+}
+
+.story {
+    display: flex;
+    
+    margin: 0 25%;
+    
+    /* 
+    flex-direction: row;
+    
+    min-width: 400px;
+     */
+}
+
+.center {
+    text-align: center;
+}
+
+#chapterText {
+    color: red;
+    display: block;
+}
+#chapterImage {
+    width: 450px;
+}
+.nextButton {
+    display: inline-block;
+}

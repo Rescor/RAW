@@ -16,8 +16,8 @@ let positionHorizontal      = parseInt(getComputedStyle(tank).left);
 let score                   = 0;
 let hp                      = 3;
 let overheat                = false;
-let remainingEnemies        = 1;
-let remainingSpawnEnemies   = 1;
+let remainingEnemies        = 20;
+let remainingSpawnEnemies   = 20;
 
 const BOSS_SPAWN_SCORE      = 500;
 
@@ -161,7 +161,7 @@ function bulletMove(bullet) {
                 }
             }
             
-            
+                // BOSS FIGHT
                  if (parseInt(bullet.style.left) + 20 >= parseInt(getComputedStyle(enemy).left) && parseInt(bullet.style.left) - 70 <= parseInt(getComputedStyle(enemy).left) && enemies.boss.immune == 0) {
                      if (parseInt(bullet.style.top) >= parseInt(getComputedStyle(enemy).top) && parseInt(bullet.style.top) <= parseInt(getComputedStyle(enemy).top) + parseInt(getComputedStyle(enemy).height)) {
                          bullet.remove();
@@ -173,16 +173,11 @@ function bulletMove(bullet) {
                          if (enemies.boss.health == 0) {
                             explosion(enemy);
                             enemy.remove();
+                            loadEnding();
                          }
                      }
                  }
                 }
-            
-            
- 
-            
-        
-        
 
         if (count == 3000) {
             clearInterval(bulletMoveInterval);
@@ -333,6 +328,10 @@ function checkhighscore(score) {
         localStorage.setItem('max-score', score);
         refreshGameStatus();
     }
+}
+
+function loadEnding() {
+    setTimeout(() => document.location.href = "end.html", 2000);
 }
 
 let playerMovingInterval = setInterval(playerMoving, 20);
