@@ -16,8 +16,11 @@ let positionHorizontal      = parseInt(getComputedStyle(tank).left);
 let score                   = 0;
 let hp                      = 3;
 let overheat                = false;
-let remainingEnemies        = 20;
-let remainingSpawnEnemies   = 20;
+let remainingEnemies        = 0;
+let remainingSpawnEnemies   = 0;
+
+if (!localStorage.getItem('achievements')) { localStorage.setItem('achievements', "{}") };
+let achievements = JSON.parse(localStorage.getItem('achievements'));
 
 const BOSS_SPAWN_SCORE      = 500;
 
@@ -173,7 +176,11 @@ function bulletMove(bullet) {
                          if (enemies.boss.health == 0) {
                             explosion(enemy);
                             enemy.remove();
-                            loadEnding();
+                            achievements.finishedGame = true;
+                            localStorage.setItem('achievements', JSON.stringify(achievements));
+                            console.log(achievements)
+                            alert("Achievement get: Finish the game");
+                            //loadEnding();
                          }
                      }
                  }
