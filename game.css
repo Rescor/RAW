@@ -57,7 +57,7 @@ body {
 #tank {
     position: absolute;
     /* background-color: rgb(255, 0, 0); */
-    background: url('assets/player.png');
+    background: url('assets/player.png') no-repeat;
     background-size: cover;
     width: 80px;
     height: 50px;

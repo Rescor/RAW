@@ -48,8 +48,9 @@ a:hover {
     border: 1px solid lime;
 }
 /* ======== STORY SCREEN ======== */
-#logo {
-    color: red;
+.chooseShip {
+    color: rgb(216, 81, 3);
+    margin-bottom: 30px;
 }
 .story {
     display: flex;

@@ -1,14 +1,14 @@
 
 if (!localStorage.getItem('achievements')) { localStorage.setItem('achievements', "{}") };
 let receivedAchievements = JSON.parse(localStorage.getItem('achievements'));
-
+let playerShips = [1];
 let achievements = {
     finishedGame: {
         title: "Завершить игру",
         icon_locked_url: "",
         icon_unlocked_url: "",
         description: "Завершите сюжетную часть игры.",
-        reward: null,
+        reward: 2,
         got: false,
     },
     test: {
@@ -41,6 +41,7 @@ function setAchievementsList() {
             achievementElement.classList.add("achievement");
             if (receivedAchievements[key]) {
                 achievementElement.classList.add("completed");
+                playerShips.push(achievements[key].reward)
             }
 
             titleElement.innerHTML = achievement.title;
@@ -52,3 +53,21 @@ function setAchievementsList() {
     } 
 }
 setAchievementsList()
+let chooseShipElem = document.getElementById("chooseShip");
+function setShipsList() {
+    for (ship of playerShips) {
+        console.log(ship)
+        let btn = document.createElement("button");
+        btn.innerHTML = ship;
+        btn.id = ship;
+        chooseShipElem.appendChild(btn);
+        let createdBtn = document.getElementById(btn.id);
+        createdBtn.onclick = () => localStorage.setItem("ship", btn.id)
+        //btn.onclick = ;
+    };
+        
+}
+setShipsList()
+function setId(id) {
+    localStorage.setItem("ship", id)
+}

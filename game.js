@@ -13,6 +13,7 @@ let enemy                   = document.getElementById("enemy");
 let positionVertical        = parseInt(getComputedStyle(tank).top);
 let positionHorizontal      = parseInt(getComputedStyle(tank).left);
 
+
 let score                   = 0;
 let hp                      = 3;
 let overheat                = false;
@@ -21,6 +22,21 @@ let remainingSpawnEnemies   = 0;
 
 if (!localStorage.getItem('achievements')) { localStorage.setItem('achievements', "{}") };
 let achievements = JSON.parse(localStorage.getItem('achievements'));
+
+if (!localStorage.getItem('ship')) { localStorage.setItem('ship', 2) };
+let playerShip              = localStorage.getItem('ship');
+
+function setPlayerShip() {
+    if (playerShip == 1) {
+        tank.style.background = "url('assets/player.png') no-repeat";
+        tank.style.backgroundSize = "80px 50px"
+    }
+    if (playerShip == 2) {
+        tank.style.background =  "url('assets/ship_02.png') no-repeat";
+        tank.style.backgroundSize = "80px 50px";
+    }
+}
+setPlayerShip();
 
 const BOSS_SPAWN_SCORE      = 500;
 
