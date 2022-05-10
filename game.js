@@ -17,8 +17,8 @@ let positionHorizontal      = parseInt(getComputedStyle(tank).left);
 let score                   = 0;
 let hp                      = 3;
 let overheat                = false;
-let remainingEnemies        = 0;
-let remainingSpawnEnemies   = 0;
+let remainingEnemies        = 20;
+let remainingSpawnEnemies   = 20;
 
 if (!localStorage.getItem('achievements')) { localStorage.setItem('achievements', "{}") };
 let achievements = JSON.parse(localStorage.getItem('achievements'));
@@ -164,43 +164,38 @@ function bulletMove(bullet) {
 
         for (let i = 0; i < allEnemies.length; i++) {
             let enemy = allEnemies[i];
-            
             if (remainingEnemies > 0) {
-                if (parseInt(bullet.style.left) + 20 >= parseInt(getComputedStyle(enemy).left) && parseInt(bullet.style.left) - 70 <= parseInt(getComputedStyle(enemy).left)) {
-                    if (parseInt(bullet.style.top) >= parseInt(getComputedStyle(enemy).top) && parseInt(bullet.style.top) <= parseInt(getComputedStyle(enemy).top) + parseInt(getComputedStyle(enemy).height)) {
-                        bullet.remove();
-                        explosion(enemy);
-                        enemy.remove();
-                        // scoreCounter(50);
-                        remainingEnemies -= 1;
-                        refreshGameStatus();
-                        checkhighscore(score);
-                        clearInterval(bulletMoveInterval);
-                    }
+                if (checkHit(bullet, enemy)) {
+                    bullet.remove();
+                    explosion(enemy);
+                    enemy.remove();
+                    scoreCounter(50);
+                    remainingEnemies -= 1;
+                    refreshGameStatus();
+                    checkhighscore(score);
+                    clearInterval(bulletMoveInterval);
+                }
+            }
+                // BOSS FIGHT
+            if (checkHit(bullet, enemy)) {
+                bullet.remove();
+                // scoreCounter(50);
+                enemies.boss.health -= 1;
+                refreshGameStatus();
+                checkhighscore(score);
+                clearInterval(bulletMoveInterval);
+                if (enemies.boss.health == 0) {
+                explosion(enemy);
+                enemy.remove();
+                achievements.finishedGame = true;
+                localStorage.setItem('achievements', JSON.stringify(achievements));
+                
+                //alert("Achievement get: Finish the game");
+                //loadEnding();
                 }
             }
             
-                // BOSS FIGHT
-                 if (parseInt(bullet.style.left) + 20 >= parseInt(getComputedStyle(enemy).left) && parseInt(bullet.style.left) - 70 <= parseInt(getComputedStyle(enemy).left) && enemies.boss.immune == 0) {
-                     if (parseInt(bullet.style.top) >= parseInt(getComputedStyle(enemy).top) && parseInt(bullet.style.top) <= parseInt(getComputedStyle(enemy).top) + parseInt(getComputedStyle(enemy).height)) {
-                         bullet.remove();
-                         // scoreCounter(50);
-                         enemies.boss.health -= 1;
-                         refreshGameStatus();
-                         checkhighscore(score);
-                         clearInterval(bulletMoveInterval);
-                         if (enemies.boss.health == 0) {
-                            explosion(enemy);
-                            enemy.remove();
-                            achievements.finishedGame = true;
-                            localStorage.setItem('achievements', JSON.stringify(achievements));
-                            console.log(achievements)
-                            alert("Achievement get: Finish the game");
-                            //loadEnding();
-                         }
-                     }
-                 }
-                }
+        }
 
         if (count == 3000) {
             clearInterval(bulletMoveInterval);
@@ -208,6 +203,21 @@ function bulletMove(bullet) {
         };
     }, 16);
 }
+
+function checkHit(elem1, elem2) {
+    let rect1 = elem1.getBoundingClientRect();
+    let rect2 = elem2.getBoundingClientRect();
+
+    if (rect1.right >= rect2.left && rect1.left <= rect2.right) {
+        if (rect1.bottom >= rect2.top && rect1.top <= rect2.bottom) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+
 
 function explosion(ship) {
     let explosion = document.createElement("div");
@@ -243,29 +253,32 @@ function enemiesMove() {
     
     let shipsToRemove = [];
     for (let i = 0; i < allLightShips.length; i++) {
-        enemyLeftPosition = parseInt(allLightShips[i].style.left);
-        enemyTopPosition = parseInt(allLightShips[i].style.top);
+        let enemy = allLightShips[i];
+        enemyLeftPosition = parseInt(enemy.style.left);
 
-        if (enemyLeftPosition <= positionHorizontal + 90 && enemyLeftPosition >= positionHorizontal) {
-             if (enemyTopPosition + 50 >= positionVertical && enemyTopPosition <= positionVertical + 50) {
-                shipsToRemove.push(allLightShips[i]);
-                playerExplosion();
-                explosion(allLightShips[i]);
-                remainingSpawnEnemies += 1;
-                hp-=1;
-                refreshGameStatus()
-                removeAllShips();
-                if (hp == 0) gameOver();
-             }
+        // if (getRandomArbitrary(0, 100) < 3) {
+        //     enemyShoot(enemy);
+        // }
+
+        // !!! REFACTOR THIS !!!
+        if (checkHit(tank, enemy)) {
+            shipsToRemove.push(enemy);
+            playerExplosion();
+            explosion(enemy);
+            remainingSpawnEnemies += 1;
+            hp-=1;
+            refreshGameStatus()
+            removeAllShips();
+            if (hp == 0) gameOver();
+             
          }
         // remove enemies behind the screen and take damage
         if (enemyLeftPosition <= -40) {
-            shipsToRemove.push(allLightShips[i]);
+            shipsToRemove.push(enemy);
             remainingSpawnEnemies += 1;
         }
 
-        allLightShips[i].style.left = enemyLeftPosition - 6 + "px";
-      
+        enemy.style.left = enemyLeftPosition - 6 + "px";
     }
     
     shipsToRemove.forEach(ship => {
@@ -275,6 +288,15 @@ function enemiesMove() {
         if (hp == 0) gameOver();
     });
 }
+
+function enemyShoot(enemy) {
+    let enemyBullet = document.createElement("div");
+    enemyBullet.style.left = enemy.style.left;
+    enemyBullet.style.top = enemy.style.top;
+    enemyBullet.classList.add("enemyBullet");
+    document.body.appendChild(enemyBullet);
+}
+
 
 let removeAllShips = function() {
     let allLightShips = document.getElementsByClassName("lightShip");
