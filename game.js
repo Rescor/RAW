@@ -229,7 +229,7 @@ function enemySpawner(type) {
     let enemy = document.createElement("div");
     if (type.className == "lightShip"){
         enemy.classList.add(type.className, "enemy");
-        enemy.style.top = getRandomArbitrary(100,900) + "px";
+        enemy.style.top = getRandomArbitrary(190,800) + "px";
         enemy.style.left = 2000 + "px";
         GAME_FIELD_ELEMENT.appendChild(enemy);
     }
