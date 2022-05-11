@@ -39,7 +39,7 @@ body {
     display: block;
 }
 #chapterImage {
-    width: 450px;
+    max-width: 450px;
 }
 .nextButton {
     display: inline-block;
