@@ -7,8 +7,8 @@ const weapon                = document.getElementById("weapon");
 const GAME_FIELD_ELEMENT    = document.getElementById("gameField");
 const GAME_OVER_SCREEN      = document.getElementById("gameOver");
 const BOSS_HEALTH_ELEMENT   = document.getElementById("bossHealth");
-const BOSS_HEALTH_STRING_ELEMENT   = document.getElementById("bossHealthString");
-const REMAINING_ENEMIES_ELEMENT = document.getElementById("remainingEnemies");
+const BOSS_HEALTH_STRING_ELEMENT    = document.getElementById("bossHealthString");
+const REMAINING_ENEMIES_ELEMENT     = document.getElementById("remainingEnemies");
 let enemy                   = document.getElementById("enemy");
 let positionVertical        = parseInt(getComputedStyle(tank).top);
 let positionHorizontal      = parseInt(getComputedStyle(tank).left);
@@ -215,9 +215,6 @@ function checkHit(elem1, elem2) {
     }
     return false;
 }
-
-
-
 
 function explosion(ship) {
     let explosion = document.createElement("div");
