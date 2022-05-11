@@ -38,6 +38,7 @@ function setPlayerShip() {
 }
 setPlayerShip();
 
+let bossFightMode = false;
 const BOSS_SPAWN_SCORE      = 500;
 
 let allEnemies;
@@ -149,59 +150,58 @@ function fire(bullet) {
     bullet.style.top    =  positionVertical + 22 + "px";
     bullet.style.left   =  positionHorizontal + 90 + "px";
     document.body.appendChild(bullet);
-    bulletMove(bullet);
     setOverheat();
 }
 
-function bulletMove(bullet) {
-    let count   = 0;
-    allEnemies  = document.getElementsByClassName("enemy");
-    let bulletPosition = positionHorizontal;
+function bulletMove() {
+    let allBullets = document.getElementsByClassName("bullet");
+    let allEnemies  = document.getElementsByClassName("enemy");
 
-    let bulletMoveInterval = setInterval( () => {
-        bullet.style.left = bulletPosition + 90 + count + "px";
-        count += 16;
+    for (let i = 0; i < allBullets.length; i++) {
+        let bullet = allBullets[i];
+        let bulletPosition = parseInt(bullet.style.left);
+        bullet.style.left = bulletPosition + 20 + "px";
+        if (bulletPosition > 2000) {
+            bullet.remove();
+            continue;
+        };
 
-        for (let i = 0; i < allEnemies.length; i++) {
-            let enemy = allEnemies[i];
-            if (remainingEnemies > 0) {
-                if (checkHit(bullet, enemy)) {
-                    bullet.remove();
-                    explosion(enemy);
-                    enemy.remove();
-                    scoreCounter(50);
-                    remainingEnemies -= 1;
-                    refreshGameStatus();
-                    checkhighscore(score);
-                    clearInterval(bulletMoveInterval);
-                }
-            }
-                // BOSS FIGHT
+    if (!bossFightMode && enemies.boss.immune == 1) {
+        for (let j = 0; j < allEnemies.length; j++) {
+            let enemy = allEnemies[j]
             if (checkHit(bullet, enemy)) {
                 bullet.remove();
-                // scoreCounter(50);
+                explosion(enemy);
+                enemy.remove();
+                scoreCounter(50);
+                remainingEnemies -= 1;
+                refreshGameStatus();
+                checkhighscore(score);
+                }
+            }
+        }
+    
+    else if (bossFightMode && enemies.boss.immune == 0) {
+        let enemy = allEnemies[0]
+        if (checkHit(bullet, enemy)) {
+            bullet.remove();
+                //scoreCounter(50);
                 enemies.boss.health -= 1;
                 refreshGameStatus();
                 checkhighscore(score);
-                clearInterval(bulletMoveInterval);
                 if (enemies.boss.health == 0) {
-                explosion(enemy);
-                enemy.remove();
-                achievements.finishedGame = true;
-                localStorage.setItem('achievements', JSON.stringify(achievements));
-                
-                //alert("Achievement get: Finish the game");
-                //loadEnding();
+                    explosion(enemy);
+                    enemy.remove();
+                    achievements.finishedGame = true;
+                    localStorage.setItem('achievements', JSON.stringify(achievements));
+                    alert("Achievement get: Finish the game");
+                    loadEnding();
+                    }
                 }
             }
-            
         }
 
-        if (count == 3000) {
-            clearInterval(bulletMoveInterval);
-            bullet.remove()
-        };
-    }, 16);
+        
 }
 
 function checkHit(elem1, elem2) {
@@ -342,6 +342,7 @@ let enemySpawnInterval = setInterval(() => {
 
 function bossSpawn() {
     enemySpawner(enemies.boss);
+    bossFightMode = true;
     let bossSteps = 0; 
     let bossElement = document.getElementsByClassName("boss");
     let bossMoveInterval = setInterval(()=> {
@@ -388,6 +389,7 @@ let backgroundMoveInterval = setInterval(() => {
 }, 33);
 
 let moveInterval = setInterval(() => enemiesMove(), 30);
+let bulletMoveInterval = setInterval(() => bulletMove(), 16);
 
 function scoreCounter(count) {
     score+=count;
