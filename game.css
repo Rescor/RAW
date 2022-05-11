@@ -105,6 +105,13 @@ body {
     background-size: 100%;
     position: absolute;
 }
+.bossExplosion {
+    width: 400px;
+    height: 400px;
+    background-image: url("assets/explosion.gif");
+    background-size: 100%;
+    position: absolute;
+}
 
 #gameOver {
     color: red;

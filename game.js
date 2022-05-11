@@ -194,7 +194,7 @@ function bulletMove() {
                     enemy.remove();
                     achievements.finishedGame = true;
                     localStorage.setItem('achievements', JSON.stringify(achievements));
-                    alert("Achievement get: Finish the game");
+                   // alert("Achievement get: Finish the game");
                     loadEnding();
                     }
                 }
@@ -217,11 +217,20 @@ function checkHit(elem1, elem2) {
 }
 
 function explosion(ship) {
+    let target = ship.classList[0];
     let explosion = document.createElement("div");
-    explosion.classList.add("explosion");
-    explosion.style.top = ship.style.top;
-    explosion.style.left = ship.style.left;
-    document.body.appendChild(explosion);
+    if (target == "player" || target == "lightShip") {
+        explosion.classList.add("explosion");
+        explosion.style.top = ship.style.top;
+        explosion.style.left = ship.style.left;
+        document.body.appendChild(explosion);
+    }
+    else {
+        explosion.classList.add("bossExplosion");
+        explosion.style.top = ship.style.top;
+        explosion.style.left = ship.style.left;
+        document.body.appendChild(explosion);
+    }
     setTimeout(() => {document.body.removeChild(explosion)}, 850);
 }
 
