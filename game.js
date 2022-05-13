@@ -262,9 +262,9 @@ function enemiesMove() {
         let enemy = allLightShips[i];
         enemyLeftPosition = parseInt(enemy.style.left);
 
-        // if (getRandomArbitrary(0, 100) < 3) {
-        //     enemyShoot(enemy);
-        // }
+        if (getRandomArbitrary(0, 100) < 3) {
+             enemyShoot(enemy);
+        }
 
         // !!! REFACTOR THIS !!!
         if (checkHit(tank, enemy)) {
@@ -303,6 +303,31 @@ function enemyShoot(enemy) {
     document.body.appendChild(enemyBullet);
 }
 
+function enemyBulletMove() {
+    let allEnemyBullets = document.getElementsByClassName("enemyBullet");
+    console.log(allEnemyBullets)
+    for (let i = 0; i < allEnemyBullets.length; i++) {
+        let enemyBullet = allEnemyBullets[i];
+        let enemyBulletPosition = parseInt(enemyBullet.style.left);
+        enemyBullet.style.left = enemyBulletPosition - 20 + "px";
+        if (enemyBulletPosition < -20) {
+            enemyBullet.remove();
+            continue;
+        };
+
+        if (checkHit(enemyBullet, tank)) {
+            enemyBullet.remove();
+            playerExplosion();
+            remainingSpawnEnemies += 1;
+            hp-=1;
+            refreshGameStatus()
+            removeAllShips();
+            if (hp == 0) gameOver();
+            }
+    }
+}
+
+let enemyBulletMoveInt = setInterval(() => enemyBulletMove(), 30);
 
 let removeAllShips = function() {
     let allLightShips = document.getElementsByClassName("lightShip");
