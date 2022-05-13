@@ -10,15 +10,13 @@ body {
 
     background-position-y: 85%;
     background-size:cover;
-    overflow: hidden;
 }
 
 
 /* ======== STORY SCREEN ======== */
-.logo {
-    color: red;
+#logo {
+    margin: 15px;
 }
-
 .story {
     display: flex;
     
@@ -36,11 +34,12 @@ body {
 }
 
 #chapterText {
-    color: red;
+    color: rgb(245, 98, 30);
     display: block;
 }
 #chapterImage {
-    width: 450px;
+    max-width: 1000px;
+    max-height: 550px;
 }
 .nextButton {
     display: inline-block;

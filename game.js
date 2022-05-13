@@ -17,13 +17,13 @@ let positionHorizontal      = parseInt(getComputedStyle(tank).left);
 let score                   = 0;
 let hp                      = 3;
 let overheat                = false;
-let remainingEnemies        = 20;
-let remainingSpawnEnemies   = 20;
+let remainingEnemies        = 3;
+let remainingSpawnEnemies   = 3;
 
 if (!localStorage.getItem('achievements')) { localStorage.setItem('achievements', "{}") };
 let achievements = JSON.parse(localStorage.getItem('achievements'));
 
-if (!localStorage.getItem('ship')) { localStorage.setItem('ship', 2) };
+if (!localStorage.getItem('ship')) { localStorage.setItem('ship', 1) };
 let playerShip              = localStorage.getItem('ship');
 
 function setPlayerShip() {
