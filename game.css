@@ -126,3 +126,9 @@ body {
     background-color: red;
     position: absolute;
 }
+.wall {
+    width: 3px;
+    height: 80px;
+    background-color: red;
+    position: absolute;
+}
