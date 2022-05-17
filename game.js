@@ -12,12 +12,11 @@ const REMAINING_ENEMIES_ELEMENT     = document.getElementById("remainingEnemies"
 let positionVertical        = parseInt(getComputedStyle(tank).top);
 let positionHorizontal      = parseInt(getComputedStyle(tank).left);
 
-
 let score                   = 0;
-let hp                      = 999999;
+let hp                      = 3;
 let overheat                = false;
-let remainingEnemies        = 3;
-let remainingSpawnEnemies   = 3;
+let remainingEnemies        = 20;
+let remainingSpawnEnemies   = 20;
 const BOSS_SPAWN_SCORE      = 500;
 let enemiesSpeed            = 100;
 let enemiesBulletsSpeed     = 100;
@@ -202,20 +201,16 @@ function checkHit(elem1, elem2) {
 }
 
 function explosion(ship) {
-    let target = ship.classList[0];
+    let targetClass = ship.classList[0];
+    if (targetClass == "wall") return;
     let explosion = document.createElement("div");
-    if (target == "player" || target == "lightShip") {
-        explosion.classList.add("explosion");
-        explosion.style.top = ship.style.top;
-        explosion.style.left = ship.style.left;
-        document.body.appendChild(explosion);
-    }
-    else if (target == "boss") {
-        explosion.classList.add("bossExplosion");
-        explosion.style.top = ship.style.top;
-        explosion.style.left = ship.style.left;
-        document.body.appendChild(explosion);
-    }
+
+   explosion.classList.add(targetClass == "boss" ? "bossExplosion" : "explosion")
+
+    explosion.style.top = ship.style.top;
+    explosion.style.left = ship.style.left;
+    document.body.appendChild(explosion);
+
     setTimeout(() => {document.body.removeChild(explosion)}, 850);
 }
 
@@ -487,3 +482,5 @@ function scoreCounter(count) {
 }
 
 function getRandomArbitrary(min, max) { return Math.floor(Math.random() * (max - min) + min) }
+
+function debug(text, target) { console.log(text, target); }
