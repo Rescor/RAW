@@ -319,12 +319,12 @@ let playerExplosion = function() {
 }
 
 let enemySpawnInterval = setInterval(() => {
-    if (remainingSpawnEnemies <= 0 && remainingEnemies <= 0) {
-        clearInterval(enemySpawnInterval);
+    if (remainingSpawnEnemies == 0 && remainingEnemies == 0) {
         bossSpawn();
+        clearInterval(enemySpawnInterval);
     };
 
-    if (!bossFightMode) {
+    if (remainingSpawnEnemies > 0) {
         if (getRandomArbitrary(1, 5) == 1) {
             enemySpawner(enemies.wall);
             return;
