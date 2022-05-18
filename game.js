@@ -12,15 +12,17 @@ const REMAINING_ENEMIES_ELEMENT     = document.getElementById("remainingEnemies"
 let positionVertical        = parseInt(getComputedStyle(tank).top);
 let positionHorizontal      = parseInt(getComputedStyle(tank).left);
 
+const STORY_MODE            = window.location.href.includes("story");
 let score                   = 0;
 let hp                      = 3;
 let overheat                = false;
+let railgunOverheat         = false;
 let remainingEnemies        = 20;
 let remainingSpawnEnemies   = 20;
 const BOSS_SPAWN_SCORE      = 500;
 let enemiesSpeed            = 100;
 let enemiesBulletsSpeed     = 100;
-let bossFightMode = false;
+let bossFightMode           = false;
 
 let achievements;
 let playerShip;
@@ -45,12 +47,14 @@ let enemies                 = {
     }
 }
 
-let keysPressed = {
+let keysPressed             = {
     ArrowUp:    false,
     ArrowDown:  false,
     ArrowLeft:  false,
     ArrowRight: false,
+    KeyR:       false,
     Space:      false,
+    Shift:      false,
 }
 
 function getLSData() {
@@ -130,20 +134,26 @@ let playerMoving = function() {
         }
     }
 
+    if (keysPressed.Shift) {
+        if (hp > 0 && !railgunOverheat) {
+            let bullet = document.createElement("div");
+            bullet.classList.add("railgunBullet");
+            bullet.classList.add("bullet");
+            fire(bullet, "railgun");
+        }
+    }
+
     
 }
 
 document.onkeydown = function(e) {
-    if (e.code === "ArrowUp" || e.code === "KeyW")       { keysPressed.ArrowUp = true; }
-
-    if (e.code === "ArrowDown" || e.code === "KeyS")     { keysPressed.ArrowDown = true; }
-
-    if (e.code === "ArrowLeft" || e.code === "KeyA")     { keysPressed.ArrowLeft = true; }
-
+    if (e.code === "ArrowUp" || e.code === "KeyW")       { keysPressed.ArrowUp    = true; }
+    if (e.code === "ArrowDown" || e.code === "KeyS")     { keysPressed.ArrowDown  = true; }
+    if (e.code === "ArrowLeft" || e.code === "KeyA")     { keysPressed.ArrowLeft  = true; }
     if (e.code === "ArrowRight" || e.code === "KeyD")    { keysPressed.ArrowRight = true; }
-
-    if (e.code === "Space")                              { keysPressed.Space = true; }
-
+    if (e.code === "KeyR")                               { keysPressed.KeyR       = true; }
+    if (e.code === "Space")                              { keysPressed.Space      = true; }
+    if (e.code === "ShiftLeft")                          { keysPressed.Shift      = true; }
     if (e.code.includes("Digit")) {
         let speed = e.code.substring(e.code.length - 1);
         enemiesSpeed = 100 * speed;
@@ -156,22 +166,20 @@ document.onkeydown = function(e) {
 }
 
 document.onkeyup = function(e) {
-    if (e.code === "ArrowUp" || e.code === "KeyW")       { keysPressed.ArrowUp = false; }
-
-    if (e.code === "ArrowDown" || e.code === "KeyS")     { keysPressed.ArrowDown = false; }
-
-    if (e.code === "ArrowLeft" || e.code === "KeyA")     { keysPressed.ArrowLeft = false; }
-
-    if (e.code === "ArrowRight" || e.code === "KeyD")    { keysPressed.ArrowRight = false; }
-
-    if (e.code === "Space")                              { keysPressed.Space = false; }
+    if (e.code === "ArrowUp" || e.code === "KeyW")       { keysPressed.ArrowUp      = false; }
+    if (e.code === "ArrowDown" || e.code === "KeyS")     { keysPressed.ArrowDown    = false; }
+    if (e.code === "ArrowLeft" || e.code === "KeyA")     { keysPressed.ArrowLeft    = false; }
+    if (e.code === "ArrowRight" || e.code === "KeyD")    { keysPressed.ArrowRight   = false; }
+    if (e.code === "KeyR")                               { keysPressed.KeyR         = false; }
+    if (e.code === "Space")                              { keysPressed.Space        = false; }
+    if (e.code === "ShiftLeft")                          { keysPressed.Shift        = false; }
 }
 
-function fire(bullet) {
+function fire(bullet, type) {
     bullet.style.top    =  positionVertical + 22 + "px";
     bullet.style.left   =  positionHorizontal + 90 + "px";
-    document.body.appendChild(bullet);
-    setOverheat();
+    GAME_FIELD_ELEMENT.appendChild(bullet);
+    type == "railgun" ? setRGOverheat() : setOverheat();
 }
 
 function bulletMove() {
@@ -202,7 +210,7 @@ function checkHit(elem1, elem2) {
 
 function explosion(ship) {
     let targetClass = ship.classList[0];
-    if (targetClass == "wall") return;
+    // if (targetClass == "wall") return;
     let explosion = document.createElement("div");
 
    explosion.classList.add(targetClass == "boss" ? "bossExplosion" : "explosion")
@@ -216,21 +224,16 @@ function explosion(ship) {
 
 function enemySpawner(type) {
     let enemy = document.createElement("div");
-    if (type.className == "lightShip" || type.className == "wall") {
-        enemy.classList.add(type.className, "enemy");
-        enemy.style.top = getRandomArbitrary(190,800) + "px";
-        enemy.style.left = 2000 + "px";
-        GAME_FIELD_ELEMENT.appendChild(enemy);
-    }
-
+    enemy.classList.add(type.className, "enemy");
+    enemy.style.left = 2000 + "px";
     if (type.className == "boss") {
-        enemy.classList.add(type.className);
-        enemy.classList.add("enemy");
         enemy.style.top = 300 + "px";
-        enemy.style.left = 2000 + "px";
-        GAME_FIELD_ELEMENT.appendChild(enemy);
         enemy.innerHTML = '<img src="' + enemies.boss.assetPath + '">';
     }
+    else {
+        enemy.style.top = getRandomArbitrary(190,800) + "px";
+    }
+    GAME_FIELD_ELEMENT.appendChild(enemy);
 }
 
 function enemiesMove() {
@@ -293,6 +296,13 @@ let setOverheat = function() {
     };
 }
 
+let setRGOverheat = function() {
+    if (!railgunOverheat) {
+        railgunOverheat = true;
+        setTimeout(() => railgunOverheat = false, 1500);
+    };
+}
+
 let playerExplosion = function() {
     explosion(tank);
     GAME_FIELD_ELEMENT.removeChild(tank);
@@ -308,29 +318,33 @@ let playerExplosion = function() {
     setTimeout(spawnTank, 1000);
 }
 
-
 let enemySpawnInterval = setInterval(() => {
-    enemySpawner(enemies.wall);
-    if (remainingSpawnEnemies > 0) {
-        if (getRandomArbitrary(1, 1) == 1) {
-            
-        }
-        enemySpawner(enemies.lightShip);
-        remainingSpawnEnemies -= 1;
-    }
     if (remainingSpawnEnemies == 0 && remainingEnemies == 0) {
         clearInterval(enemySpawnInterval);
         bossSpawn();
     };
-}, getRandomArbitrary(500, 2500));
+
+    if (!bossFightMode) {
+        if (getRandomArbitrary(1, 5) == 1) {
+            enemySpawner(enemies.wall);
+            return;
+        }
+        enemySpawner(enemies.lightShip);
+        remainingSpawnEnemies -= 1;
+    }
+}, getRandomArbitrary(500, 2000));
 
 function bossSpawn() {
-    enemySpawner(enemies.boss);
     bossFightMode = true;
-    let bossSteps = 0; 
-    let bossElement = document.getElementsByClassName("boss");
-    let bossMoveInterval = setInterval(()=> {
-        bossElement[0].style.left = parseInt(bossElement[0].style.left) - 50 + "px";
+    enemySpawner(enemies.boss);
+    clearInterval(moveInterval);
+    let bossElement      = document.getElementsByClassName("boss");
+    let bossPosition     = bossElement[0].style.left;
+    let bossSteps        = 0;
+
+    let bossMoveInterval = setInterval( ()=> {
+        bossPosition = parseInt(bossPosition) - 50 + "px";
+        bossElement[0].style.left = bossPosition;
         bossSteps++;
         if (bossSteps == 13) {
             clearInterval(bossMoveInterval);
@@ -344,15 +358,13 @@ function gameOver() {
     clearInterval(enemySpawnInterval);
     clearInterval(playerMovingInterval);
     clearInterval(backgroundMoveInterval);
-    for (let i = 0; i < allLightShips.length; i++) {
-        allLightShips[i].remove();
-        }
+    clearInterval(hitCheckInterval);
     document.body.removeChild(GAME_FIELD_ELEMENT);
     SCORE_COUNTER_ELEMENT.innerHTML = score;
     GAME_OVER_SCREEN.style.display = "flex";
 }
 
-function checkhighscore(score) {
+function checkHighscore(score) {
     let currentScore = score;
     let currenthighscore = localStorage.getItem('max-score', score);
     if (currentScore > currenthighscore) {
@@ -390,18 +402,25 @@ let hitCheckInterval = setInterval(() => {
             }
             // if regular enemy
             if (enemyClass != "wall" && enemyClass != "boss") {
-                bullet.remove();
+                if (bullet.classList[0] != "railgunBullet") bullet.remove();
                 explosion(enemy);
                 enemy.remove();
                 scoreCounter(50);
                 remainingEnemies -= 1;
                 refreshGameStatus();
-                checkhighscore(score);
+                checkHighscore(score);
                 
             }
             // if wall
             if (enemyClass == "wall") {
-                bullet.remove();
+                if (bullet.classList[0] != "railgunBullet") bullet.remove();
+                else {
+                    explosion(enemy);
+                    enemy.remove();
+                    scoreCounter(25);
+                    refreshGameStatus();
+                    checkHighscore(score);
+                }
             }
             // if boss
             if (enemyClass == "boss" && bossFightMode && enemies.boss.immune == 0) {
@@ -409,7 +428,7 @@ let hitCheckInterval = setInterval(() => {
                     //scoreCounter(50);
                     enemies.boss.health -= 1;
                     refreshGameStatus();
-                    checkhighscore(score);
+                    checkHighscore(score);
                     if (enemies.boss.health == 0) {
                         explosion(enemy);
                         enemy.remove();
@@ -422,7 +441,6 @@ let hitCheckInterval = setInterval(() => {
 
         }
     }
-
 
         // check player hit enemy
     for (let j = 0; j < allEnemies.length; j++) {
@@ -470,7 +488,7 @@ let hitCheckInterval = setInterval(() => {
             enemy.remove();
         }
     }
-}, 30);
+}, 10);
 
 let moveInterval = setInterval(() => enemiesMove(), 3000 / enemiesSpeed);
 let bulletMoveInterval = setInterval(() => bulletMove(), 16);

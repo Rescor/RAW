@@ -28,7 +28,7 @@ BUTTON_NEXT.onclick = function() {
         BUTTON_NEXT.innerHTML = "Начать погоню!"
     }
     if (currentChapter == 4) {
-        document.location.href = "game.html"
+        document.location.href = "game.html?mode=story"
         return;
     }
     currentChapter += 1;
