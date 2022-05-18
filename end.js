@@ -32,7 +32,7 @@ BUTTON_NEXT.onclick = function() {
         BUTTON_NEXT.innerHTML = "Конец."
     }
     if (currentChapter == 5) {
-        document.location.href = "index.html";
+        document.location.href = "thanks.html";
         return;
     }
     currentChapter += 1;

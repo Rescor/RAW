@@ -1,0 +1,53 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 35px;
+    margin: 0px;
+}
+
+body {
+    background-blend-mode: multiply;
+    background:url("assets/bg_fox.jpg") top repeat fixed rgba(238, 95, 0, 0.719);
+    background-position-y: 85%;
+    background-size:cover;
+}
+
+
+/* ======== THANKS SCREEN ======== */
+.thanks {
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+.center {
+    text-align: center;
+    font-size: 50px;
+    color: rgb(245, 37, 30);
+}
+
+p {
+    color: rgb(245, 98, 30);
+    text-align: left;
+    margin: 20px;
+}
+
+a {
+    color: rgb(223, 101, 1);
+    background-color: rgba(46, 46, 46, 0.404);
+    border: 2px solid rgba(255, 107, 39, 0.575);
+    padding: 25px 35px;
+    margin: 25px;
+    text-decoration: none;
+    display: block;
+    border-radius: 5px;
+    text-align: center;
+    transition: all 175ms ease; 
+}
+
+a:hover {
+    background-color: rgba(49, 49, 49, 0.651);
+    color: rgb(247, 119, 0);
+    text-shadow: 0px 0px 1px rgb(197, 62, 0);
+    box-shadow: 0px 0px 10px rgb(255, 102, 0);
+    transition: all 175ms ease; 
+}
