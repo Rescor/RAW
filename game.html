@@ -14,23 +14,32 @@
 <div id="gameField">
     <div id="statusbar">
         <div class="hpElement">
-            <span>Health: </span>
+            <span>Здоровье: </span>
             <span id="hp"></span>
         </div>
         
         <div class="scoreElement endlessMode">
-            <span>Score: </span>
+            <span>Очки: </span>
             <span id="score"></span>
         </div>
 
         <div class="highscore endlessMode">
-            <span>Highscore: </span>
+            <span>Макс. очков: </span>
             <span id="highscore"></span>
         </div>
 
         <div class="remainingEnemies storyMode">
-            <span>Remaining enemies: </span>
+            <span>Осталось БПЛА Сомгбёрда: </span>
             <span id="remainingEnemies"></span>
+        </div>
+        <div class="control">
+            <span>|</span>
+        </div>
+        <div class="control">
+            <span>Лазер: пробел</span>
+        </div>
+        <div class="control">
+            <span>Рельсовая пушка: R</span>
         </div>
     </div>
 
@@ -54,6 +63,7 @@
         </div>
         
         <button class="timeTravelButton" onclick="window.location.reload();">Перемотать время назад</button>
+        <button class="timeTravelButton" onclick="window.location.href = './'">На главную</button>
     </div>
     <script src="game.js"></script>
 </body>

@@ -53,7 +53,7 @@ body {
     color: rgb(139, 236, 60);
 }
 
-.hpElement, .scoreElement, .highscore, .remainingEnemies {
+.hpElement, .scoreElement, .highscore, .remainingEnemies, .control {
     padding: 5px 10px;
 }
 
