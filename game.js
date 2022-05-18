@@ -319,7 +319,7 @@ let playerExplosion = function() {
 }
 
 let enemySpawnInterval = setInterval(() => {
-    if (remainingSpawnEnemies == 0 && remainingEnemies == 0) {
+    if (remainingSpawnEnemies <= 0 && remainingEnemies <= 0) {
         clearInterval(enemySpawnInterval);
         bossSpawn();
     };
@@ -466,9 +466,9 @@ let hitCheckInterval = setInterval(() => {
         if (checkHit(enemyBullet, tank)) {
             enemyBullet.remove();
             playerExplosion();
-            remainingSpawnEnemies += 1;
             hp-=1;
-            refreshGameStatus()
+            refreshGameStatus();
+            remainingSpawnEnemies += allEnemiesShips.length;
             removeAllShips();
             if (hp == 0) gameOver();
         }
