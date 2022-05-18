@@ -134,7 +134,7 @@ let playerMoving = function() {
         }
     }
 
-    if (keysPressed.Shift) {
+    if (keysPressed.KeyR) {
         if (hp > 0 && !railgunOverheat) {
             let bullet = document.createElement("div");
             bullet.classList.add("railgunBullet");
