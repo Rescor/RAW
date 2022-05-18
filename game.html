@@ -18,17 +18,17 @@
             <span id="hp"></span>
         </div>
         
-        <div class="scoreElement">
+        <div class="scoreElement endlessMode">
             <span>Score: </span>
             <span id="score"></span>
         </div>
 
-        <div class="highscore">
+        <div class="highscore endlessMode">
             <span>Highscore: </span>
             <span id="highscore"></span>
         </div>
 
-        <div class="remainingEnemies">
+        <div class="remainingEnemies storyMode">
             <span>Remaining enemies: </span>
             <span id="remainingEnemies"></span>
         </div>
@@ -40,19 +40,20 @@
     </div>
     
 
-    <div id="tank" class="player">
-        <div id="weapon"></div>
-    </div>
+    <div id="playerShip" class="player"></div>
     <div id="enemy"></div>
     
 </div>
     <div id="gameOver">
-        GAME OVER<br><br>
-        <div class="scoreElement">
-            <span>Your score: </span>
-            <span class="scoreCounter"></span>
+        <div class="scoreGOElement">
+            <span id="yourScore" class="endlessMode">Набрано очков: <span class="scoreCounter"></span></span>
         </div>
-        <button onclick="window.location.reload();">Start again</button>
+        <div id="gameOverText" class="storyMode">
+            <p>Прочность корабля на исходе!</p>
+            <p>Лисёнок тянется к кнопке перемотке времени...</p>
+        </div>
+        
+        <button class="timeTravelButton" onclick="window.location.reload();">Перемотать время назад</button>
     </div>
     <script src="game.js"></script>
 </body>

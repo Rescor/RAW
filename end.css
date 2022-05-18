@@ -3,9 +3,9 @@
     font-size: 30px;
     margin: 0px;
 }
+
 body {
     background-blend-mode: multiply;
-    /* background:url("assets/main_bg2.jpg") top repeat fixed rgba(3, 2, 2, 0.651); */
     background:url("assets/bg_fox.jpg") top repeat fixed rgba(238, 95, 0, 0.719);
 
     background-position-y: 85%;
@@ -17,16 +17,10 @@ body {
 #logo {
     margin: 15px;
 }
+
 .story {
     display: flex;
-    
     margin: 0 25%;
-    
-    /* 
-    flex-direction: row;
-    
-    min-width: 400px;
-     */
 }
 
 .center {
@@ -37,10 +31,12 @@ body {
     color: rgb(245, 98, 30);
     display: block;
 }
+
 #chapterImage {
     max-width: 1000px;
     max-height: 550px;
 }
+
 .nextButton {
     display: inline-block;
 }

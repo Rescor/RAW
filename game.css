@@ -1,6 +1,6 @@
 * {
     font-family: 'Roboto', sans-serif;
-    font-size: 30px;
+    
     margin: 0px;
 }
 body {
@@ -8,6 +8,7 @@ body {
     background:url("assets/bg_space.jpg") top repeat fixed rgba(0,0,0,.5);
     background-size: cover;
     background-position: 100%;
+    font-size: 30px;
     overflow: hidden;
 }
 
@@ -25,12 +26,14 @@ body {
     flex-direction: column;
     display: none;
 }
+
 #bossHealth {
     display: flex;
     margin: 50px 25%;
     justify-content:flex-start;
     border: 1px solid red;
 }
+
 .healthBarCell {
     max-width: 5%;
     width: 50px;
@@ -41,22 +44,21 @@ body {
 
 #statusbar {
     display: flex;
+    font-size: 20px;
 	-webkit-flex-direction: row;
 	flex-direction: row;
     flex: auto;
     width: 100%;
-    background-color: gray;
+    background-color: rgba(95, 95, 95, 0.692);
     color: rgb(139, 236, 60);
 }
-
 
 .hpElement, .scoreElement, .highscore, .remainingEnemies {
     padding: 5px 10px;
 }
 
-#tank {
+#playerShip {
     position: absolute;
-    /* background-color: rgb(255, 0, 0); */
     background: url('assets/player.png') no-repeat;
     background-size: cover;
     width: 80px;
@@ -65,21 +67,18 @@ body {
     left: 100px;
 }
 
-/* #weapon {
-    background-color: blue;
-    position: absolute;
-    width: 40px;
-    height: 8px;
-    left: 50px;
-    top: 21px;
-} */
-
 .bullet {
-    width: 27px;
+    width: 30px;
     height: 3px;
     background-color: rgb(21, 255, 0);
+    /* 16, 196, 0 */
+    box-shadow: 0px 0px 20px rgb(166, 255, 0)
+                -20px 1px 20px rgb(166, 255, 0),
+                20px 1px 20px rgb(166, 255, 0);
+    border-radius: 20%;
     position: absolute;
 }
+
 .railgunBullet {
     width: 250px;
     height: 5px;
@@ -115,11 +114,30 @@ body {
     background-size: 100%;
     position: absolute;
 }
+
 .bossExplosion {
     width: 400px;
     height: 400px;
     background-image: url("assets/explosion.gif");
     background-size: 100%;
+    position: absolute;
+}
+
+.enemyBullet {
+    width: 30px;
+    height: 5px;
+    background-color: red;
+    position: absolute;
+}
+
+.wall {
+    width: 6px;
+    height: 150px;
+    background-color: rgb(234, 0, 255);
+    box-shadow: 0px 0px 10px rgb(111, 0, 255),
+                5px 0px 20px rgb(174, 0, 255),
+                -5px 0px 20px rgb(174, 0, 255);
+    border-radius: 30%;
     position: absolute;
 }
 
@@ -130,19 +148,39 @@ body {
     align-items: center;
 }
 
-.enemyBullet {
-    width: 30px;
-    height: 5px;
-    background-color: red;
-    position: absolute;
+#gameOverText {
+    padding-top: 30px;
+    margin: 20px;
+    font-size: 50px;
 }
-.wall {
-    width: 6px;
-    height: 150px;
-    background-color: rgb(234, 0, 255);
-    box-shadow: 0px 0px 10px rgb(111, 0, 255),
-                5px 0px 20px rgb(174, 0, 255),
-                -5px 0px 20px rgb(174, 0, 255);
-    border-radius: 30%;
-    position: absolute;
+
+#yourScore {
+    font-size: 50px;
+}
+.scoreGOElement {
+    margin-top: 20px;
+}
+
+.timeTravelButton {
+    font-size: 50px;
+    color: rgb(223, 101, 1);
+    background-color: rgba(46, 46, 46, 0.404);
+    border: 2px solid rgba(255, 107, 39, 0.575);
+    padding: 25px 35px;
+    margin-top: 100px;
+    margin: 25px;
+    text-decoration: none;
+    display: block;
+    border-radius: 5px;
+    text-align: center;
+    transition: all 175ms ease; 
+}
+
+.timeTravelButton:hover {
+    background-color: rgba(49, 49, 49, 0.651);
+    color: rgb(247, 119, 0);
+    text-shadow: 0px 0px 1px rgb(197, 62, 0);
+    box-shadow: 0px 0px 10px rgb(255, 102, 0);
+    transition: all 175ms ease;
+    cursor: pointer;
 }
