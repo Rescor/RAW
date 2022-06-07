@@ -1,3 +1,26 @@
+const ELEMENTS = {
+    HP: document.querySelector("#hp"),
+    SCORE:              document.querySelector("#score"),
+    SCORE_COUNTER:      document.querySelector(".scoreCounter"),
+    HIGHSCORE:          document.querySelector("#highscore"),
+    playerShip:         document.getElementById("playerShip"),
+    GAME_FIELD:         document.getElementById("gameField"),
+    GAME_OVER_SCREEN:   document.getElementById("gameOver"),
+    BOSS_HEALTH:        document.getElementById("bossHealth"),
+    BOSS_HEALTH_STRING: document.getElementById("bossHealthString"),
+    REMAINING_ENEMIES:  document.getElementById("remainingEnemies"),
+}
+
+const GAME_STATE = {
+    STORY_MODE: window.location.href.includes("story"),
+    score:      0,
+    hp:         3,
+    overheat:   false,
+    railgunOverheat: false,
+    remainingEnemies: 15,
+
+}
+
 const HP_ELEMENT            = document.querySelector("#hp");
 const SCORE_ELEMENT         = document.querySelector("#score");
 const SCORE_COUNTER_ELEMENT = document.querySelector(".scoreCounter");
@@ -8,6 +31,8 @@ const GAME_OVER_SCREEN      = document.getElementById("gameOver");
 const BOSS_HEALTH_ELEMENT   = document.getElementById("bossHealth");
 const BOSS_HEALTH_STRING_ELEMENT    = document.getElementById("bossHealthString");
 const REMAINING_ENEMIES_ELEMENT     = document.getElementById("remainingEnemies");
+
+
 const STORY_MODE            = window.location.href.includes("story");
 let positionVertical        = parseInt(getComputedStyle(playerShip).top);
 let positionHorizontal      = parseInt(getComputedStyle(playerShip).left);
@@ -56,13 +81,21 @@ let keysPressed             = {
     Shift:      false,
 }
 
+
+// ********************** functions *******************
+function gameStart() {
+    getLSData();
+    setplayerShipModel();
+    refreshGameScreen();    
+}
+
 function getLSData() {
     if (!localStorage.getItem('achievements')) { localStorage.setItem('achievements', "{}") };
     if (!localStorage.getItem('ship')) { localStorage.setItem('ship', 1) };
     achievements    = JSON.parse(localStorage.getItem('achievements'));
     playerShipModel      = localStorage.getItem('ship');
 }
-getLSData();
+
 
 function setplayerShipModel() {
     if (playerShipModel == 1) {
@@ -74,7 +107,6 @@ function setplayerShipModel() {
         playerShip.style.backgroundSize = "80px 50px";
     }
 }
-setplayerShipModel();
 
 function refreshGameScreen() {
     HP_ELEMENT.innerHTML                = hp;
@@ -105,7 +137,6 @@ function refreshGameScreen() {
     }
     }
 }
-refreshGameScreen();
 
 let playerMoving = function() {
     if (keysPressed.ArrowUp) {
@@ -533,4 +564,4 @@ function scoreCounter(count) {
 
 function getRandomArbitrary(min, max) { return Math.floor(Math.random() * (max - min) + min) }
 
-function debug(text, target) { console.log(text, target); }
+gameStart();
