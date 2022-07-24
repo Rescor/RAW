@@ -93,8 +93,6 @@ function gameStart() {
     hitCheckInterval        = setInterval(checkHits, 10);
 }
 
-// ********************** functions *******************
-
 function backgroundMove() {
     let body = document.body;
     body.style.backgroundPosition = parseInt(getComputedStyle(body).backgroundPosition) + 1 + "%";
