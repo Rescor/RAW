@@ -6,10 +6,10 @@
 body {
     background-blend-mode: multiply;
     /* background:url("assets/main_bg2.jpg") top repeat fixed rgba(3, 2, 2, 0.651); */
-    background:url("assets/bg_fox.jpg") top repeat fixed rgba(238, 95, 0, 0.719);
+    background:url("/assets/bg_fox.jpg") top repeat fixed rgba(238, 95, 0, 0.719);
 
     background-position-y: 85%;
-    background-size:cover;
+    background-size: cover;
 }
 
 

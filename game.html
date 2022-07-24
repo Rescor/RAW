@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>~Ahri</title>
+    <title>RAW</title>
+    <link rel="shortcut icon" href="assets/favicon.jpg" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="game.css">
+    <link rel="stylesheet" href="./src/css/game.css">
 </head>
 <body>
 <div id="gameField">
@@ -32,12 +32,15 @@
             <span>Осталось БПЛА Сомгбёрда: </span>
             <span id="remainingEnemies"></span>
         </div>
+
         <div class="control">
             <span>|</span>
         </div>
+
         <div class="control">
             <span>Лазер: пробел</span>
         </div>
+
         <div class="control">
             <span>Рельсовая пушка: R</span>
         </div>
@@ -48,15 +51,15 @@
         </div>
     </div>
     
-
     <div id="playerShip" class="player"></div>
+
     <div id="enemy"></div>
-    
 </div>
     <div id="gameOver">
         <div class="scoreGOElement">
             <span id="yourScore" class="endlessMode">Набрано очков: <span class="scoreCounter"></span></span>
         </div>
+
         <div id="gameOverText" class="storyMode">
             <p>Прочность корабля на исходе!</p>
             <p>Лисёнок тянется к кнопке перемотке времени...</p>
@@ -65,6 +68,6 @@
         <button class="timeTravelButton" onclick="window.location.reload();">Перемотать время назад</button>
         <button class="timeTravelButton" onclick="window.location.href = './'">На главную</button>
     </div>
-    <script src="game.js"></script>
+    <script src="./src/js/game.js"></script>
 </body>
 </html>

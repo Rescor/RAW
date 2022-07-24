@@ -42,6 +42,14 @@ let playerShipModel;
 let allEnemies;
 let allLightShips;
 
+let enemySpawnInterval;
+let playerMovingInterval;
+let moveInterval;
+let bulletMoveInterval;
+let enemyBulletMoveInt;
+let backgroundMoveInterval;
+let hitCheckInterval;
+
 let enemies                 = {
     lightShip: {
         className: "lightShip",
@@ -55,7 +63,7 @@ let enemies                 = {
     boss: {
         className: "boss",
         health: 20,
-        assetPath: "assets/boss.png",
+        assetPath: "/assets/boss.png",
         immune: 1,
     }
 }
@@ -70,19 +78,19 @@ let keysPressed             = {
     Shift:      false,
 }
 
+
 function gameStart() {
     getLSData();
     setplayerShipModel();
     refreshGameScreen();
     addKeyListeners();
-
-    let enemySpawnInterval      = setInterval(setSpawnerInterval, getRandomArbitrary(500, 2000));
-    let playerMovingInterval    = setInterval(playerMoving, 20);
-    let moveInterval            = setInterval(enemiesMove, 3000 / enemiesSpeed);
-    let bulletMoveInterval      = setInterval(bulletMove, 16);
-    let enemyBulletMoveInt      = setInterval(enemyBulletMove, 3000 / enemiesBulletsSpeed);
-    let backgroundMoveInterval  = setInterval(backgroundMove, 33);
-    let hitCheckInterval        = setInterval(checkHits, 10);
+    enemySpawnInterval      = setInterval(setSpawnerInterval, getRandomArbitrary(500, 2000));
+    playerMovingInterval    = setInterval(playerMoving, 20);
+    moveInterval            = setInterval(enemiesMove, 3000 / enemiesSpeed);
+    bulletMoveInterval      = setInterval(bulletMove, 16);
+    enemyBulletMoveInt      = setInterval(enemyBulletMove, 3000 / enemiesBulletsSpeed);
+    backgroundMoveInterval  = setInterval(backgroundMove, 33);
+    hitCheckInterval        = setInterval(checkHits, 10);
 }
 
 // ********************** functions *******************
@@ -153,7 +161,6 @@ function checkHits() {
                         loadEnding();
                         }
                 }
-
         }
     }
 
@@ -227,11 +234,11 @@ function setSpawnerInterval() {
 
 function setplayerShipModel() {
     if (playerShipModel == 1) {
-        playerShip.style.background = "url('assets/player.png') no-repeat";
+        playerShip.style.background = "url('/assets/player.png') no-repeat";
         playerShip.style.backgroundSize = "80px 50px"
     }
     if (playerShipModel == 2) {
-        playerShip.style.background =  "url('assets/ship_02.png') no-repeat";
+        playerShip.style.background =  "url('/assets/ship_02.png') no-repeat";
         playerShip.style.backgroundSize = "80px 50px";
     }
 }
@@ -311,8 +318,6 @@ let playerMoving = function() {
             fire(bullet, "railgun");
         }
     }
-
-    
 }
 
 function fire(bullet, type) {
